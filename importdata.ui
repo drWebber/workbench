@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ImportData</class>
+ <widget class="QWidget" name="ImportData">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>229</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="4" column="0">
+      <widget class="QLabel" name="lbFirstCol">
+       <property name="text">
+        <string>Столбец</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="lbFilePath">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pbChooseFile">
+       <property name="text">
+        <string>Выбрать файл</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="lbSecCol">
+       <property name="text">
+        <string>Столбец</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lbStartRow">
+       <property name="text">
+        <string>Начальная строка</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="lbManufacturer">
+       <property name="text">
+        <string>Производитель</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QToolButton" name="tbSaveCurrSettings">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сохранить настройки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1" colspan="2">
+      <widget class="QLineEdit" name="leFirstCol">
+       <property name="text">
+        <string>1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1" colspan="2">
+      <widget class="QLineEdit" name="leSecCol">
+       <property name="text">
+        <string>1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1" colspan="2">
+      <widget class="QComboBox" name="cbManufacturer"/>
+     </item>
+     <item row="3" column="1" colspan="2">
+      <widget class="QLineEdit" name="leStartRow">
+       <property name="text">
+        <string>1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0" colspan="3">
+      <widget class="QPushButton" name="pbImport">
+       <property name="text">
+        <string>Выполнить импорт</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="1" colspan="2">
+      <widget class="QLineEdit" name="leThirdCol">
+       <property name="text">
+        <string>1</string>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="lbThirdCol">
+       <property name="text">
+        <string>Столбец</string>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0" colspan="2">
+      <widget class="QProgressBar" name="progressBar">
+       <property name="value">
+        <number>24</number>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>pbChooseFile</sender>
+   <signal>clicked()</signal>
+   <receiver>ImportData</receiver>
+   <slot>slotShowChooseFileDlg()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>56</x>
+     <y>38</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>tbSaveCurrSettings</sender>
+   <signal>clicked()</signal>
+   <receiver>ImportData</receiver>
+   <slot>slotSaveCurrSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>22</x>
+     <y>31</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>cbManufacturer</sender>
+   <signal>activated(QString)</signal>
+   <receiver>ImportData</receiver>
+   <slot>slotLoadSettings()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>249</x>
+     <y>109</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>149</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pbImport</sender>
+   <signal>clicked()</signal>
+   <receiver>ImportData</receiver>
+   <slot>slotImportData()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>199</x>
+     <y>156</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>87</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>slotShowChooseFileDlg()</slot>
+  <slot>slotSaveCurrSettings()</slot>
+  <slot>slotLoadSettings()</slot>
+  <slot>slotImportData()</slot>
+ </slots>
+</ui>
