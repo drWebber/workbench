@@ -27,22 +27,31 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    sqltablewin.cpp \
     sql/sqlconn.cpp \
     sql/sqlquery.cpp \
     import/importdata.cpp \
     import/priceimport.cpp \
     delegates/sqlinsdelegate.cpp \
-    import/nomenclature.cpp
+    import/nomenclature.cpp \
+    editor/dataimportdelegate.cpp \
+    editor/sqltablewin.cpp \
+    clipboard/clipboardworker.cpp \
+    editor/sqlrelationaltablemodel.cpp \
+    editor/outertexttable.cpp
 
 HEADERS  += mainwindow.h \
-    sqltablewin.h \
     import/importdata.h \
     import/nomenclature.h \
     import/priceimport.h \
     sql/sqlconn.h \
     delegates/sqlinsdelegate.h \
-    sql/sqlquery.h
+    sql/sqlquery.h \
+    sqltableviewwindow.h \
+    editor/dataimportdelegate.h \
+    editor/sqltablewin.h \
+    clipboard/clipboardworker.h \
+    editor/sqlrelationaltablemodel.h \
+    editor/outertexttable.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \

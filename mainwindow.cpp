@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "sqltablewin.h"
 #include "sql/sqlquery.h"
 #include <qtableview.h>
 #include <QLabel>

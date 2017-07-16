@@ -6,7 +6,7 @@
 #include <qsqlrelationaltablemodel.h>
 #include <qsqlquery.h>
 #include <qsqlrecord.h>
-#include "sqltablewin.h"
+#include "editor/sqltablewin.h"
 #include "import/importdata.h"
 #include "import/nomenclature.h"
 #include "import/priceimport.h"
