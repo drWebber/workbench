@@ -12,11 +12,12 @@
 #include "clipboard/clipboardworker.h"
 #include "outertexttable.h"
 
-SqlTableWin::SqlTableWin(QString mainSqlTable, QWidget *parent) :
+SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SqlTableWin)
 {
     ui->setupUi(this);
+    qDebug() << "SqlTableWin";
 
     //подключаем меню
     ui->sqlTableView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -25,18 +26,13 @@ SqlTableWin::SqlTableWin(QString mainSqlTable, QWidget *parent) :
     QSqlQuery query;
     query.exec("SET NAMES cp1251");
     model = new SqlRelationalTableModel(this);
-    model->setTable(mainSqlTable);
+    model->setTable(tableName);
     model->select();
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(model);
     ui->sqlTableView->setModel(proxy);
-}
-
-SqlTableWin::SqlTableWin()
-{
-
 }
 
 SqlTableWin::~SqlTableWin()
@@ -58,6 +54,11 @@ void SqlTableWin::setDelegate(int col, SqlInsDelegate *delegate)
 void SqlTableWin::hideCol(int col)
 {
     ui->sqlTableView->hideColumn(col);
+}
+
+void SqlTableWin::hideColumns()
+{
+
 }
 
 void SqlTableWin::setEditColumn(int col)
@@ -144,6 +145,12 @@ void SqlTableWin::onPasteActionTriggered()
     if (cw.isTable()) {
         OuterTextTable outerTable(cw.getTable(), model);
         outerTable.printTable();
+        outerTable.replaceDisplayDataToIndex();
+        outerTable.printTable();
+        QModelIndex beforeReset = ui->sqlTableView->currentIndex();
+        model->reselect();
+        hideColumns();
+        model->setRowsData(beforeReset, outerTable.getTable());
     }
 }
 

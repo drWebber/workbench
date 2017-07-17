@@ -10,7 +10,9 @@
 #include "import/importdata.h"
 #include "import/nomenclature.h"
 #include "import/priceimport.h"
+#include "editor/keywordseditor.h"
 #include <qlist.h>
+
 namespace Ui {
 class MainWindow;
 }
@@ -38,7 +40,7 @@ private:
     SqlQuery *sq;
     QLabel **lbArr;
     QLineEdit **leArr;
-    SqlTableWin *keywordsWin;
+    KeywordsEditor *keywordsWin;
     SqlTableWin *manufacturersWin;
     SqlTableWin *pattWin;
     SqlTableWin *paramWin;

@@ -80,8 +80,8 @@ int MainWindow::leKeyEdFinished()
 
 void MainWindow::slotMKeyEditTriggered()
 {
-    keywordsWin = new SqlTableWin("keywords");
-    keywordsWin->hideCol(0);
+    keywordsWin = new KeywordsEditor("keywords");
+    keywordsWin->setParent(this, Qt::Window);
     keywordsWin->setEditColumn(1);
     keywordsWin->setWindowTitle("Редактор ключевых слов");
     keywordsWin->show();

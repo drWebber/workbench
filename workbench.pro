@@ -33,11 +33,11 @@ SOURCES += main.cpp\
     import/priceimport.cpp \
     delegates/sqlinsdelegate.cpp \
     import/nomenclature.cpp \
-    editor/dataimportdelegate.cpp \
     editor/sqltablewin.cpp \
     clipboard/clipboardworker.cpp \
     editor/sqlrelationaltablemodel.cpp \
-    editor/outertexttable.cpp
+    editor/outertexttable.cpp \
+    editor/keywordseditor.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -47,11 +47,11 @@ HEADERS  += mainwindow.h \
     delegates/sqlinsdelegate.h \
     sql/sqlquery.h \
     sqltableviewwindow.h \
-    editor/dataimportdelegate.h \
     editor/sqltablewin.h \
     clipboard/clipboardworker.h \
     editor/sqlrelationaltablemodel.h \
-    editor/outertexttable.h
+    editor/outertexttable.h \
+    editor/keywordseditor.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \

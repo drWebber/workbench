@@ -19,12 +19,12 @@ class SqlTableWin : public QWidget
     Q_OBJECT
 
 public:
-    explicit SqlTableWin(QString mainSqlTable, QWidget *parent = 0);
-    explicit SqlTableWin();
+    explicit SqlTableWin(QString tableName, QWidget *parent = 0);
     ~SqlTableWin();
     void setRelation(int col, QSqlRelation rel);
     void setDelegate(int col, SqlInsDelegate *delegate);
     void hideCol(int col);
+    virtual void hideColumns();
     void setEditColumn(int col);
     void keyPressEvent(QKeyEvent *e);
     void connectFirstColEnteredSignal();
@@ -32,7 +32,6 @@ public slots:
     void slotAddRow();
     void slotDelRow();
 private:
-    Ui::SqlTableWin *ui;
     SqlRelationalTableModel *model;
     QSortFilterProxyModel *proxy;
     int editColumnNum = 0;
@@ -47,6 +46,7 @@ private slots:
 
     // QWidget interface
 protected:
+    Ui::SqlTableWin *ui;
     void closeEvent(QCloseEvent *event) override;
 };
 

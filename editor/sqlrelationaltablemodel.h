@@ -10,6 +10,8 @@ class SqlRelationalTableModel : public QSqlRelationalTableModel
     Q_OBJECT
 public:
     SqlRelationalTableModel(QObject *parent);
+    void setRowsData(QModelIndex currentIndex, QVector<QVector<QString> > &table);
+    void reselect();
 };
 
 #endif // SQLRELATIONALTABLEMODEL_H

@@ -179,6 +179,9 @@
    <property name="text">
     <string>Шаблоны</string>
    </property>
+   <property name="shortcut">
+    <string>F3</string>
+   </property>
   </action>
   <action name="mParamEdit">
    <property name="text">
