@@ -29,6 +29,8 @@ ImportData::ImportData(QWidget *parent) :
 
     new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(close()));
     settings = new QSettings("import.conf", QSettings::IniFormat);
+
+    show();
 }
 
 ImportData::~ImportData()

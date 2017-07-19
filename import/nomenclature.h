@@ -3,7 +3,7 @@
 #include "importdata.h"
 
 namespace Ui {
-class Nomenclature;
+    class Nomenclature;
 }
 
 class Nomenclature : public ImportData

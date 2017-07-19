@@ -7,7 +7,7 @@
 #include <qfiledialog.h>
 
 namespace Ui {
-class ImportData;
+    class ImportData;
 }
 
 class ImportData : public QWidget

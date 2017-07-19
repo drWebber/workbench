@@ -17,7 +17,6 @@ SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
     ui(new Ui::SqlTableWin)
 {
     ui->setupUi(this);
-    qDebug() << "SqlTableWin";
 
     //подключаем меню
     ui->sqlTableView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -27,7 +26,6 @@ SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
     query.exec("SET NAMES cp1251");
     model = new SqlRelationalTableModel(this);
     model->setTable(tableName);
-    model->select();
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
 
     proxy = new QSortFilterProxyModel(this);
@@ -39,33 +37,6 @@ SqlTableWin::~SqlTableWin()
 {
     delete ui;
 }
-
-void SqlTableWin::setRelation(int col, QSqlRelation rel)
-{
-    model->setRelation(col, rel);
-    model->select();
-}
-
-void SqlTableWin::setDelegate(int col, SqlInsDelegate *delegate)
-{
-    ui->sqlTableView->setItemDelegateForColumn(col, delegate);
-}
-
-void SqlTableWin::hideCol(int col)
-{
-    ui->sqlTableView->hideColumn(col);
-}
-
-void SqlTableWin::hideColumns()
-{
-
-}
-
-void SqlTableWin::setEditColumn(int col)
-{
-    editColumnNum = col;
-}
-
 
 void SqlTableWin::slotDelRow()
 {
@@ -79,8 +50,6 @@ void SqlTableWin::slotAddRow()
 {
     int rowCount = proxy->rowCount();
     proxy->insertRow(rowCount);
-    QModelIndex indx = ui->sqlTableView->model()->index(rowCount, editColumnNum);
-    ui->sqlTableView->edit(indx);
     ui->sqlTableView->selectRow(rowCount);
 }
 
@@ -105,13 +74,6 @@ void SqlTableWin::keyPressEvent(QKeyEvent *e){
     if (e->key() == Qt::Key_Escape) {
         emit this->close();
     }
-}
-
-void SqlTableWin::connectFirstColEnteredSignal()
-{
-    //соединяем отдельным методом, т.к. не во всех окнах-наследниках это необходимо
-    connect(ui->sqlTableView->model(),SIGNAL(dataChanged(QModelIndex,QModelIndex,QVector<int>)),
-            this, SLOT(onFirstRowEntered(QModelIndex)));
 }
 
 void SqlTableWin::onFirstRowEntered(QModelIndex indx)

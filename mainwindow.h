@@ -11,6 +11,8 @@
 #include "import/nomenclature.h"
 #include "import/priceimport.h"
 #include "editor/keywordseditor.h"
+#include <editor/parameditor.h>
+#include <editor/patteditor.h>
 #include <qlist.h>
 
 namespace Ui {
@@ -40,13 +42,17 @@ private:
     SqlQuery *sq;
     QLabel **lbArr;
     QLineEdit **leArr;
-    KeywordsEditor *keywordsWin;
+    KeywordsEditor *keywords;
+    PattEditor *patt;
     SqlTableWin *manufacturersWin;
-    SqlTableWin *pattWin;
-    SqlTableWin *paramWin;
-    SqlTableWin *prodWin;
-    Nomenclature *nmcWin;
-    PriceImport *priceImportWnd;
+    ParamEditor *param;
+    SqlTableWin *prod;
+    Nomenclature *nomenclature;
+    PriceImport *priceImport;
+
+    // QWidget interface
+protected:
+    void keyPressEvent(QKeyEvent *event) override;
 };
 
 #endif // MAINWINDOW_H

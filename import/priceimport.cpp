@@ -6,6 +6,7 @@
 
 PriceImport::PriceImport()
 {
+    setWindowTitle("Импорт базовых цен");
     ui->lbFirstCol->setText("Столбец артикул");
     ui->lbSecCol->setText("Столбец база");
     ui->lbThirdCol->setHidden(true);

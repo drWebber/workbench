@@ -5,6 +5,7 @@
 
 Nomenclature::Nomenclature()
 {
+    setWindowTitle("Импорт номенклатуры");
     ui->lbFirstCol->setText("Столбец артикул");
     ui->lbSecCol->setText("Столбец номенклатура");
     ui->lbThirdCol->setText("Столбец ед. изм.");

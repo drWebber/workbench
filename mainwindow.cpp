@@ -3,6 +3,7 @@
 #include "sql/sqlquery.h"
 #include <qtableview.h>
 #include <QLabel>
+#include <qevent.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -80,67 +81,59 @@ int MainWindow::leKeyEdFinished()
 
 void MainWindow::slotMKeyEditTriggered()
 {
-    keywordsWin = new KeywordsEditor("keywords");
-    keywordsWin->setParent(this, Qt::Window);
-    keywordsWin->setEditColumn(1);
-    keywordsWin->setWindowTitle("Редактор ключевых слов");
-    keywordsWin->show();
+    keywords = new KeywordsEditor("keywords");
+    keywords->setParent(this, Qt::Window);
+    keywords->show();
 }
 
 void MainWindow::slotMPattEditTriggered()
 {
-    pattWin = new SqlTableWin("patterns");
-    pattWin->setRelation(0, QSqlRelation("keywords", "kid", "name"));
-    pattWin->setWindowTitle("Редактор шаблонов");
-    pattWin->setDelegate(0, new SqlInsDelegate("keywords", "kid", "name"));
-    pattWin->show();
+    patt = new PattEditor("patterns");
+    patt->setParent(this, Qt::Window);
+    patt->show();
 }
 
 void MainWindow::slotMParamEditTriggered()
 {
-    paramWin = new SqlTableWin("params");
-    paramWin->setMinimumWidth(1042);
-    paramWin->setRelation(0, QSqlRelation("keywords", "kid", "name"));
-    SqlInsDelegate *delegate = new SqlInsDelegate("keywords", "kid", "name");
-    paramWin->setDelegate(0, delegate);
-    paramWin->setRelation(1, QSqlRelation("products", "pid", "art"));
-    paramWin->setDelegate(1, new SqlInsDelegate("products", "pid", "art"));
-    paramWin->setWindowTitle("Редактор параметров");
-    paramWin->connectFirstColEnteredSignal();
-    paramWin->show();
+    param = new ParamEditor("params");
+    param->setParent(this, Qt::Window);
+    param->show();
 }
 
 void MainWindow::slotMProdEditTriggered()
 {
-    prodWin = new SqlTableWin("products");
-    prodWin->setMinimumWidth(1024);
-    prodWin->setWindowTitle("Редактор продуктов");
-    prodWin->hideCol(0);
-    prodWin->setEditColumn(1);
-    prodWin->show();
+//    prod = new SqlTableWin("products");
+//    prod->setMinimumWidth(1024);
+//    prod->setWindowTitle("Редактор продуктов");
+//    prod->hideCol(0);
 }
 
 void MainWindow::slotMManEditTriggered()
 {
-    manufacturersWin = new SqlTableWin("manufacturers");
-    manufacturersWin->setWindowTitle("Редактор производителей");
-    manufacturersWin->hideCol(0);
-    manufacturersWin->setEditColumn(1);
-    manufacturersWin->show();
+//    manufacturersWin = new SqlTableWin("manufacturers");
+//    manufacturersWin->setWindowTitle("Редактор производителей");
+//    manufacturersWin->hideCol(0);
 }
 
 void MainWindow::slotMNomEditTriggered()
 {
-    nmcWin = new Nomenclature();
-    nmcWin->setWindowTitle("Импорт номенклатуры");
-    nmcWin->show();
+    nomenclature = new Nomenclature();
 }
 
 void MainWindow::slotMPriceEditTriggered()
 {
-    priceImportWnd = new PriceImport();
-    priceImportWnd->setWindowTitle("Импорт базовых цен");
-    priceImportWnd->show();
+    priceImport = new PriceImport();
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if (event->key() == Qt::Key_Escape) {
+        QMessageBox mBox(QMessageBox::Warning, windowTitle(), "Вы действительно хотите выйти?",
+                                       QMessageBox::Yes | QMessageBox::No, this);
+        if (mBox.exec() == QMessageBox::Yes) {
+            close();
+        }
+    }
 }
 
 void MainWindow::slotValLeEdtFinished()

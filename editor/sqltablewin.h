@@ -11,7 +11,7 @@
 #include "sqlrelationaltablemodel.h"
 
 namespace Ui {
-class SqlTableWin;
+    class SqlTableWin;
 }
 
 class SqlTableWin : public QWidget
@@ -19,25 +19,18 @@ class SqlTableWin : public QWidget
     Q_OBJECT
 
 public:
-    explicit SqlTableWin(QString tableName, QWidget *parent = 0);
+    SqlTableWin(QString tableName, QWidget *parent = 0);
     ~SqlTableWin();
-    void setRelation(int col, QSqlRelation rel);
-    void setDelegate(int col, SqlInsDelegate *delegate);
-    void hideCol(int col);
-    virtual void hideColumns();
-    void setEditColumn(int col);
+    virtual void hideColumns() = 0;
     void keyPressEvent(QKeyEvent *e);
-    void connectFirstColEnteredSignal();
-public slots:
-    void slotAddRow();
-    void slotDelRow();
-private:
+protected:
     SqlRelationalTableModel *model;
     QSortFilterProxyModel *proxy;
-    int editColumnNum = 0;
     SqlQuery sqe;
     QMenu *menu;
-private slots:
+protected slots:
+    void slotAddRow();
+    void slotDelRow();
     void onPasteActionTriggered();
     void onMenuRequested(QPoint pos);
     void onFirstRowEntered(QModelIndex indx);

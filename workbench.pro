@@ -37,7 +37,9 @@ SOURCES += main.cpp\
     clipboard/clipboardworker.cpp \
     editor/sqlrelationaltablemodel.cpp \
     editor/outertexttable.cpp \
-    editor/keywordseditor.cpp
+    editor/keywordseditor.cpp \
+    editor/patteditor.cpp \
+    editor/parameditor.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -51,7 +53,9 @@ HEADERS  += mainwindow.h \
     clipboard/clipboardworker.h \
     editor/sqlrelationaltablemodel.h \
     editor/outertexttable.h \
-    editor/keywordseditor.h
+    editor/keywordseditor.h \
+    editor/patteditor.h \
+    editor/parameditor.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \
