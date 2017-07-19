@@ -39,7 +39,9 @@ SOURCES += main.cpp\
     editor/outertexttable.cpp \
     editor/keywordseditor.cpp \
     editor/patteditor.cpp \
-    editor/parameditor.cpp
+    editor/parameditor.cpp \
+    editor/prodeditor.cpp \
+    editor/manufacturerseditor.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -55,7 +57,9 @@ HEADERS  += mainwindow.h \
     editor/outertexttable.h \
     editor/keywordseditor.h \
     editor/patteditor.h \
-    editor/parameditor.h
+    editor/parameditor.h \
+    editor/prodeditor.h \
+    editor/manufacturerseditor.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \

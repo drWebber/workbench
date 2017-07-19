@@ -102,27 +102,30 @@ void MainWindow::slotMParamEditTriggered()
 
 void MainWindow::slotMProdEditTriggered()
 {
-//    prod = new SqlTableWin("products");
-//    prod->setMinimumWidth(1024);
-//    prod->setWindowTitle("Редактор продуктов");
-//    prod->hideCol(0);
+    prod = new ProdEditor("products");
+    prod->setParent(this, Qt::Window);
+    prod->show();
 }
 
 void MainWindow::slotMManEditTriggered()
 {
-//    manufacturersWin = new SqlTableWin("manufacturers");
-//    manufacturersWin->setWindowTitle("Редактор производителей");
-//    manufacturersWin->hideCol(0);
+    manufacturersEditor = new ManufacturersEditor("manufacturers");
+    manufacturersEditor->setParent(this, Qt::Window);
+    manufacturersEditor->show();
 }
 
 void MainWindow::slotMNomEditTriggered()
 {
     nomenclature = new Nomenclature();
+    nomenclature->setParent(this, Qt::Window);
+    nomenclature->show();
 }
 
 void MainWindow::slotMPriceEditTriggered()
 {
     priceImport = new PriceImport();
+    priceImport->setParent(this, Qt::Window);
+    priceImport->show();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

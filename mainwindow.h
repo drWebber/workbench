@@ -11,8 +11,10 @@
 #include "import/nomenclature.h"
 #include "import/priceimport.h"
 #include "editor/keywordseditor.h"
+#include <editor/manufacturerseditor.h>
 #include <editor/parameditor.h>
 #include <editor/patteditor.h>
+#include <editor/prodeditor.h>
 #include <qlist.h>
 
 namespace Ui {
@@ -44,9 +46,9 @@ private:
     QLineEdit **leArr;
     KeywordsEditor *keywords;
     PattEditor *patt;
-    SqlTableWin *manufacturersWin;
+    ManufacturersEditor *manufacturersEditor;
     ParamEditor *param;
-    SqlTableWin *prod;
+    ProdEditor *prod;
     Nomenclature *nomenclature;
     PriceImport *priceImport;
 
