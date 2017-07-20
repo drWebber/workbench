@@ -20,6 +20,8 @@ class SqlTableWin : public QWidget
 
 public:
     SqlTableWin(QString tableName, QWidget *parent = 0);
+    SqlTableWin(QString tableName, QWidget *parent = 0,
+                int column, QVector<QVector<QString> > &tableToInsert);
     ~SqlTableWin();
     virtual void hideColumns() = 0;
     void keyPressEvent(QKeyEvent *e);
@@ -36,11 +38,12 @@ protected slots:
     void onFirstRowEntered(QModelIndex indx);
     void on_pbnSave_clicked();
     void on_pbnRevert_clicked();
-
     // QWidget interface
 protected:
     Ui::SqlTableWin *ui;
     void closeEvent(QCloseEvent *event) override;
+private:
+    void setUp();
 };
 
 #endif // SQLTABLEWIN_H

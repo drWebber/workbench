@@ -16,21 +16,19 @@ SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SqlTableWin)
 {
-    ui->setupUi(this);
+    setUp();
+}
 
-    //подключаем меню
-    ui->sqlTableView->setContextMenuPolicy(Qt::CustomContextMenu);
-    connect(ui->sqlTableView,SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onMenuRequested(QPoint)));
-
-    QSqlQuery query;
-    query.exec("SET NAMES cp1251");
-    model = new SqlRelationalTableModel(this);
-    model->setTable(tableName);
-    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
-
-    proxy = new QSortFilterProxyModel(this);
-    proxy->setSourceModel(model);
-    ui->sqlTableView->setModel(proxy);
+SqlTableWin::SqlTableWin(QString tableName, QWidget *parent,
+                         int column, QVector<QVector<QString> > &tableToInsert)
+{
+    foreach (QVector<QString> rowToInsert, tableToInsert) {
+        foreach (QString valToInsert, rowToInsert) {
+            model->setData(model->index(ui->sqlTableView->currentIndex().row, column),
+                           valToInsert);
+        }
+    }
+    setUp();
 }
 
 SqlTableWin::~SqlTableWin()
@@ -109,6 +107,7 @@ void SqlTableWin::onPasteActionTriggered()
         outerTable.printTable();
         outerTable.replaceDisplayDataToIndex();
         outerTable.printTable();
+
         QModelIndex beforeReset = ui->sqlTableView->currentIndex();
         model->reselect();
         hideColumns();
@@ -152,4 +151,23 @@ void SqlTableWin::closeEvent(QCloseEvent *event)
             event->ignore();
         }
     }
+}
+
+void SqlTableWin::setUp()
+{
+    ui->setupUi(this);
+
+    //подключаем меню
+    ui->sqlTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->sqlTableView,SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onMenuRequested(QPoint)));
+
+    QSqlQuery query;
+    query.exec("SET NAMES cp1251");
+    model = new SqlRelationalTableModel(this);
+    model->setTable(tableName);
+    model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+
+    proxy = new QSortFilterProxyModel(this);
+    proxy->setSourceModel(model);
+    ui->sqlTableView->setModel(proxy);
 }
