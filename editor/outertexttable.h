@@ -3,6 +3,7 @@
 
 #include "sqlrelationaltablemodel.h"
 #include <qvector.h>
+#include <qlist.h>
 
 class OuterTextTable
 {

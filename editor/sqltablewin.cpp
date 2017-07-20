@@ -16,19 +16,22 @@ SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::SqlTableWin)
 {
-    setUp();
+    setUp(tableName);
 }
 
-SqlTableWin::SqlTableWin(QString tableName, QWidget *parent,
-                         int column, QVector<QVector<QString> > &tableToInsert)
+SqlTableWin::SqlTableWin(QString tableName, int column,
+                         QVector<QVector<QString> > tableToInsert, QWidget *parent) :
+    QWidget(parent),
+    ui(new Ui::SqlTableWin)
 {
+    int lastRow = ui->sqlTableView->model()->rowCount();
     foreach (QVector<QString> rowToInsert, tableToInsert) {
         foreach (QString valToInsert, rowToInsert) {
-            model->setData(model->index(ui->sqlTableView->currentIndex().row, column),
+            model->setData(model->index(lastRow++, column),
                            valToInsert);
         }
     }
-    setUp();
+    setUp(tableName);
 }
 
 SqlTableWin::~SqlTableWin()
@@ -153,7 +156,7 @@ void SqlTableWin::closeEvent(QCloseEvent *event)
     }
 }
 
-void SqlTableWin::setUp()
+void SqlTableWin::setUp(QString tableName)
 {
     ui->setupUi(this);
 

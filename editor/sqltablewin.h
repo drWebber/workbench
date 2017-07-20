@@ -20,8 +20,8 @@ class SqlTableWin : public QWidget
 
 public:
     SqlTableWin(QString tableName, QWidget *parent = 0);
-    SqlTableWin(QString tableName, QWidget *parent = 0,
-                int column, QVector<QVector<QString> > &tableToInsert);
+    SqlTableWin(QString tableName, int column,
+                QVector<QVector<QString> > tableToInsert, QWidget *parent = 0);
     ~SqlTableWin();
     virtual void hideColumns() = 0;
     void keyPressEvent(QKeyEvent *e);
@@ -43,7 +43,7 @@ protected:
     Ui::SqlTableWin *ui;
     void closeEvent(QCloseEvent *event) override;
 private:
-    void setUp();
+    void setUp(QString tableName);
 };
 
 #endif // SQLTABLEWIN_H
