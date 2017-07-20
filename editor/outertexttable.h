@@ -3,7 +3,7 @@
 
 #include "sqlrelationaltablemodel.h"
 #include <qvector.h>
-#include <qlist.h>
+#include <qmap.h>
 
 class OuterTextTable
 {
@@ -17,6 +17,7 @@ private:
     QVector<QVector<QString>> table;
     SqlRelationalTableModel* model;
     QString getIndexValue(QString displayVal, int col);
+    QMap<int, QVector<int>> preInsert;
 };
 
 #endif // OUTERTEXTTABLE_H

@@ -2,6 +2,8 @@
 #include <qdebug.h>
 #include <qsqlquery.h>
 #include <QVectorIterator>
+#include <qmessagebox.h>
+#include <QMapIterator>
 
 OuterTextTable::OuterTextTable(QVector<QVector<QString> > outerTextTabe, SqlRelationalTableModel *model)
 {
@@ -37,12 +39,54 @@ void OuterTextTable::replaceDisplayDataToIndex()
     }
 
     //ходим по листу, заменяя отображаемые значения соотв. ячеек таблицы на индексные
+    //если индексов не обнаружено - собираем номера элементов в контейнер
     if (!relationCols.isEmpty()) {
         foreach (int col, relationCols) {
-            for (int i = 0; i < table.size(); ++i) {
-                QVector<QString> &vec = table[i];
+            QVector<int> tmpRows;
+            for (int row = 0; row < table.size(); row++) {
+                QVector<QString> &vec = table[row];
                 QString indexValue = getIndexValue(vec[col].simplified(), col);
-                vec[col] = indexValue;
+                if (indexValue.isEmpty()) {
+                    делаем выбор прямо здесь!!!!!!!!!!!!!!!!!!!!!
+                            если выбор за - перезапускаем getIndexValue() и вносим в вектор, либо удаляем нах!!!
+                            переделать цикл на хотьбу сначала по строкам, потом по колонкам!!!!!
+                    tmpRows.append(row);
+                } else {
+                    vec[col] = indexValue;
+                }
+            }
+            if (!tmpRows.isEmpty()) {
+                preInsert.insert(col, tmpRows);
+            }
+        }
+    }
+
+    //если найдены данные, отсутсвующие в индексной таблице - выводим пользователю сообщение
+    //о том что надо либо их удалить, либо внести в индексные таблицы
+    if (!preInsert.isEmpty()) {
+        QMapIterator<int, QVector<int>> it(preInsert);
+        while(it.hasNext()){
+            it.next();
+            QVector<int> rows = it.value();
+            QString emptyKeyValues;
+            for (int row = 0; row < rows.count(); ++row) {
+                emptyKeyValues.append(table.at(rows.at(row)).at(it.key()) + ", ");
+            }
+            emptyKeyValues = emptyKeyValues.left(emptyKeyValues.count() - 2);
+            QMessageBox *message = new QMessageBox(QMessageBox::Warning,
+                                                   "Введены недопустимые занчения",
+                                                   "В таблице " + model->relation(it.key()).tableName() + " отсутствуют значения: " + emptyKeyValues + ", вставка данной строки невозможна. Внести их в исходную таблицу?",
+                                                   QMessageBox::Yes | QMessageBox::No);
+            if (message->exec() == QMessageBox::Yes) {
+                //вносим изменения, вызывая конструктор редактора индексно таблицы
+                //не забываем сделать submit чтобы данные гарантированно зафиксировались
+            } else {
+                foreach (int row, rows) {
+                    qDebug() << "remove row:" << row;
+                    qDebug() << table.count();
+                    table.remove(row);
+                    qDebug() << "error is not here";
+                }
             }
         }
     }
@@ -65,13 +109,8 @@ QString OuterTextTable::getIndexValue(QString displayVal, int col)
     query.exec();
     if(!query.next()){
         //здесь спросить у пользователя че делать, вносить в таблицу новое значение, или нах забить на эту сроку
-        QSqlQuery insQuery("INSERT INTO " + tableName + "(`" + displayColumn + "`) VALUES('" + displayVal + "')");
-
-//        model->select();
-//        model->insertRow(currentRow);
-//        table.clear();
-//        insertDataFromClipboard();
-        return getIndexValue(displayVal, col);
+//        QSqlQuery insQuery("INSERT INTO " + tableName + "(`" + displayColumn + "`) VALUES('" + displayVal + "')");
+        return QString();
     }
     return query.value(indexColumn).toString();
 }
