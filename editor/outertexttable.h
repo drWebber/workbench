@@ -17,7 +17,6 @@ private:
     QVector<QVector<QString>> table;
     SqlRelationalTableModel* model;
     QString getIndexValue(QString displayVal, int col);
-    QMap<int, QVector<int>> preInsert;
 };
 
 #endif // OUTERTEXTTABLE_H
