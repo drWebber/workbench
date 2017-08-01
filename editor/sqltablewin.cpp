@@ -13,7 +13,7 @@
 #include "outertexttable.h"
 
 SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::SqlTableWin)
 {
     setUp(tableName);
@@ -21,7 +21,7 @@ SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
 
 SqlTableWin::SqlTableWin(QString tableName, int column,
                          QVector<QVector<QString> > tableToInsert, QWidget *parent) :
-    QWidget(parent),
+    QDialog(parent),
     ui(new Ui::SqlTableWin)
 {
     int lastRow = ui->sqlTableView->model()->rowCount();

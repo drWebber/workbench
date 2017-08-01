@@ -4,6 +4,7 @@
 #include <QVectorIterator>
 #include <qmessagebox.h>
 #include <QMapIterator>
+#include "editor/keywordseditor.h"
 
 OuterTextTable::OuterTextTable(QVector<QVector<QString> > outerTextTabe, SqlRelationalTableModel *model)
 {
@@ -67,19 +68,32 @@ void OuterTextTable::replaceDisplayDataToIndex()
             while(it.hasNext()){
                 it.next();
                 QVector<int> rows = it.value();
-                QString emptyKeyValues;
+                QString missingVals;
+                QStringList missingValsList;
                 for (int row = 0; row < rows.count(); ++row) {
-                    emptyKeyValues.append(table.at(rows.at(row)).at(it.key()) + ", ");
+                    missingValsList.append(table.at(rows.at(row)).at(it.key()));
+                    missingVals.append(table.at(rows.at(row)).at(it.key()) + ", ");
                 }
-                emptyKeyValues = emptyKeyValues.left(emptyKeyValues.count() - 2);
+                missingVals = missingVals.left(missingVals.count() - 2);
+                QString relTable = model->relation(it.key()).tableName();
                 QMessageBox *message = new QMessageBox(QMessageBox::Warning,
                                                        "Введены недопустимые значения",
-                                                       "В таблице " + model->relation(it.key()).tableName() + " отсутствуют значения: " + emptyKeyValues + ", вставка данной строки невозможна. Внести их в исходную таблицу?",
+                                                       "В таблице " + relTable + " отсутствуют значения: " + missingVals + ", вставка данной строки невозможна. Внести их в исходную таблицу?",
                                                        QMessageBox::Yes | QMessageBox::No);
                 if (message->exec() == QMessageBox::Yes) {
                     //вносим изменения, вызывая конструктор редактора индексной таблицы
                     //не забываем сделать submit чтобы данные гарантированно зафиксировались
+                    if (relTable == "keywords") {
+                        KeywordsEditor *ke = new KeywordsEditor("keywords");
+                        ke->exec();
+                        delete ke;
+                        qDebug() << "kwords:" << missingValsList;
+                    } else if (relTable == "products") {
 
+                    } else {
+                        QMessageBox::critical(NULL, "Ошибка вставки отсутствующих данных",
+                                              "Редактор значений таблицы " + relTable + " не содержит конструктора для массовой вставки отсутствующих значений.");
+                    }
                     //QSqlQuery insQuery("INSERT INTO " + tableName + "(`" + displayColumn + "`) VALUES('" + displayVal + "')");
 
                     table = tableCopy;

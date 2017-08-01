@@ -2,19 +2,19 @@
 #define SQLTABLEWIN_H
 
 #include "delegates/sqlinsdelegate.h"
-#include <qwidget.h>
 #include <qsqlrelationaltablemodel.h>
 #include <qsortfilterproxymodel.h>
 #include <QSqlRelation>
 #include <qtableview.h>
 #include "sql/sqlquery.h"
 #include "sqlrelationaltablemodel.h"
+#include <qdialog.h>
 
 namespace Ui {
     class SqlTableWin;
 }
 
-class SqlTableWin : public QWidget
+class SqlTableWin : public QDialog
 {
     Q_OBJECT
 
