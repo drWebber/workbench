@@ -18,12 +18,12 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
     QSqlQuery statement;
     statement.exec("START TRANSACTION");
 
-    int col1 = ui->leFirstCol->text().toInt()-1;
-    int col2 = ui->leSecCol->text().toInt()-1;
-    int col3 = ui->leThirdCol->text().toInt()-1;
+    int articleCol = ui->leFirstCol->text().toInt()-1;
+    int nomenclatureCol = ui->leSecCol->text().toInt()-1;
+    int unitCol = ui->leThirdCol->text().toInt()-1;
 
     //читаем csv
-    QString queryPattern = "INSERT INTO products(art, description, unit, mid) VALUES (";
+    QString productQuery = "INSERT INTO products(art, description, mid) VALUES (";
     QFile csvFile(csvFilePath);
     if(csvFile.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream stream(&csvFile);
@@ -34,15 +34,18 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
         while(!stream.atEnd()){
            QString line = stream.readLine();
            QStringList item = line.split(";");
-           if (item[col1] == "") continue;
-                values.append("'" + item[col1] + "', ");
-                values.append("'" + item[col2] + "', ");
-                values.append("'" + item[col3] + "', ");
+           QString article = item[articleCol];
+           QString description = item[nomenclatureCol];
+           QString unit = item[unitCol];
+           if (article == "") continue;
+                values.append("'" + article + "', ");
+                values.append("'" + description + "', ");
+//                values.append("'" + item[unitCol] + "', ");
                 values.append("'" + QString::number(mid) + "')");
-                if (!statement.exec(queryPattern + values)) {
-                    qDebug() << "Ошибка выполения sql-запроса";
-                    qDebug() << statement.lastError();
-                    qDebug() << statement.last();
+                if (!statement.exec(productQuery + values)) {
+                    printSqlError(statement);
+                } else {
+                    sqlMultiplicyInsert(article, mid, unit);
                 }
                 values.clear();
                 counter++;
@@ -58,4 +61,28 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
     csvFile.remove();
 
     ui->progressBar->setVisible(false);
+}
+
+void Nomenclature::printSqlError(QSqlQuery &query)
+{
+    qDebug() << "Ошибка выполения sql-запроса";
+    qDebug() << query.lastError();
+    qDebug() << query.last();
+}
+
+void Nomenclature::sqlMultiplicyInsert(const QString &article, const int &mid, const QString &unit)
+{
+    QSqlQuery multQuery;
+    multQuery.prepare("INSERT INTO multiplicy(pid, main_unit) VALUES((SELECT pid FROM products WHERE art = :art AND mid = :mid), :unit)");
+    multQuery.bindValue(":art", article);
+    multQuery.bindValue(":mid", mid);
+    multQuery.bindValue(":unit", unit);
+
+    if(!multQuery.exec()){
+        qDebug() << "muilt insertion error";
+        printSqlError(multQuery);
+    } else {
+        qDebug() << multQuery.lastQuery();
+    }
+
 }

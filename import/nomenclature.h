@@ -13,6 +13,8 @@ public:
     explicit Nomenclature();
 private:
     void dataInsert(int mid, QString csvFilePath, int rowCount);
+    void sqlMultiplicyInsert(const QString &article, const int &mid, const QString &unit);
+    void printSqlError(QSqlQuery &query);
 public slots:
     //void ImportData::slotShowChooseFileDlg();
 };
