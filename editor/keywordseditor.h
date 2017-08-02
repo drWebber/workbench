@@ -8,7 +8,7 @@ class KeywordsEditor : public SqlTableWin
 {
 public:
     KeywordsEditor(QString tableName, QWidget *parent = 0);
-
+    KeywordsEditor(QString tableName, QStringList valsToInsert, QWidget *parent = 0);
     // SqlTableWin interface
 public:
     void hideColumns() override;

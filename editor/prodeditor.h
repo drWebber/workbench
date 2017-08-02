@@ -8,6 +8,7 @@ class ProdEditor : public SqlTableWin
 {
 public:
     ProdEditor(QString tableName, QWidget *parent = 0);
+    ProdEditor(QString tableName, QStringList valsToInsert, QWidget *parent = 0);
 
     // SqlTableWin interface
 public:

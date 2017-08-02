@@ -5,6 +5,7 @@
 #include <qmessagebox.h>
 #include <QMapIterator>
 #include "editor/keywordseditor.h"
+#include "editor/prodeditor.h"
 
 OuterTextTable::OuterTextTable(QVector<QVector<QString> > outerTextTabe, SqlRelationalTableModel *model)
 {
@@ -84,12 +85,13 @@ void OuterTextTable::replaceDisplayDataToIndex()
                     //вносим изменения, вызывая конструктор редактора индексной таблицы
                     //не забываем сделать submit чтобы данные гарантированно зафиксировались
                     if (relTable == "keywords") {
-                        KeywordsEditor *ke = new KeywordsEditor("keywords");
+                        KeywordsEditor *ke = new KeywordsEditor(relTable, missingValsList);
                         ke->exec();
                         delete ke;
-                        qDebug() << "kwords:" << missingValsList;
                     } else if (relTable == "products") {
-
+                        ProdEditor *pe = new ProdEditor(relTable, missingValsList);
+                        pe->exec();
+                        delete pe;
                     } else {
                         QMessageBox::critical(NULL, "Ошибка вставки отсутствующих данных",
                                               "Редактор значений таблицы " + relTable + " не содержит конструктора для массовой вставки отсутствующих значений.");

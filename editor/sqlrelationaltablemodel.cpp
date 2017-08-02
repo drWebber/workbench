@@ -7,7 +7,7 @@ SqlRelationalTableModel::SqlRelationalTableModel(QObject *parent) :
 
 }
 
-void SqlRelationalTableModel::setRowsData(QModelIndex currentIndex, QVector<QVector<QString> > &table)
+void SqlRelationalTableModel::setRowsData(QModelIndex currentIndex, const QVector<QVector<QString> > &table)
 {
     int row = currentIndex.row();
     insertRows(row, table.size());

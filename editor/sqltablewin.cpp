@@ -19,6 +19,13 @@ SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
     setUp(tableName);
 }
 
+SqlTableWin::SqlTableWin(QString tableName, QStringList valsToInsert, QWidget *parent) :
+    QDialog(parent),
+    ui(new Ui::SqlTableWin)
+{
+    setUp(tableName);
+}
+
 SqlTableWin::SqlTableWin(QString tableName, int column,
                          QVector<QVector<QString> > tableToInsert, QWidget *parent) :
     QDialog(parent),

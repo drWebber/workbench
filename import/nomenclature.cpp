@@ -3,6 +3,8 @@
 #include <qdebug.h>
 #include <qsqltablemodel.h>
 
+#include <qsqlerror.h>
+
 Nomenclature::Nomenclature()
 {
     setWindowTitle("Импорт номенклатуры");
@@ -37,7 +39,11 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
                 values.append("'" + item[col2] + "', ");
                 values.append("'" + item[col3] + "', ");
                 values.append("'" + QString::number(mid) + "')");
-                statement.exec(queryPattern + values);
+                if (!statement.exec(queryPattern + values)) {
+                    qDebug() << "Ошибка выполения sql-запроса";
+                    qDebug() << statement.lastError();
+                    qDebug() << statement.last();
+                }
                 values.clear();
                 counter++;
                 if(counter%10) ui->progressBar->setValue(counter);

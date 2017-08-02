@@ -20,6 +20,7 @@ class SqlTableWin : public QDialog
 
 public:
     SqlTableWin(QString tableName, QWidget *parent = 0);
+    SqlTableWin(QString tableName, QStringList valsToInsert, QWidget *parent = 0);
     SqlTableWin(QString tableName, int column,
                 QVector<QVector<QString> > tableToInsert, QWidget *parent = 0);
     ~SqlTableWin();
