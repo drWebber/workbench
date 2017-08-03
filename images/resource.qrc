@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/images">
+        <file>savesettings.png</file>
+        <file>terminal.png</file>
+    </qresource>
+</RCC>
