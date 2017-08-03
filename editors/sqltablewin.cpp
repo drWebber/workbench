@@ -1,4 +1,4 @@
-#include "editors/sqltablewin.h"
+#include "sqltablewin.h"
 #include "ui_sqltablewin.h"
 #include <qsqlquery.h>
 #include <qdebug.h>
@@ -44,21 +44,6 @@ SqlTableWin::SqlTableWin(QString tableName, int column,
 SqlTableWin::~SqlTableWin()
 {
     delete ui;
-}
-
-void SqlTableWin::slotDelRow()
-{
-    int currentRow = ui->sqlTableView->currentIndex().row();
-    proxy->removeRow(currentRow);
-    ui->sqlTableView->hideRow(currentRow);
-    ui->sqlTableView->selectRow(currentRow-1);
-}
-
-void SqlTableWin::slotAddRow()
-{
-    int rowCount = proxy->rowCount();
-    proxy->insertRow(rowCount);
-    ui->sqlTableView->selectRow(rowCount);
 }
 
 void SqlTableWin::onMenuRequested(QPoint pos)
@@ -167,6 +152,11 @@ void SqlTableWin::setUp(QString tableName)
 {
     ui->setupUi(this);
 
+    ui->bnSetFilter->setIcon(QPixmap(":/images/filter-add-icon.png"));
+    ui->bnUnSetFilter->setIcon(QPixmap(":/images/filter-delete-icon.png"));
+    ui->bnAdd->setIcon(QPixmap(":/images/Button-Add-icon.png"));
+    ui->bnDelete->setIcon(QPixmap(":/images/Button-Delete-icon.png"));
+
     //подключаем меню
     ui->sqlTableView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->sqlTableView,SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onMenuRequested(QPoint)));
@@ -180,4 +170,31 @@ void SqlTableWin::setUp(QString tableName)
     proxy = new QSortFilterProxyModel(this);
     proxy->setSourceModel(model);
     ui->sqlTableView->setModel(proxy);
+}
+
+void SqlTableWin::on_bnSetFilter_clicked()
+{
+    proxy->setFilterKeyColumn(ui->sqlTableView->currentIndex().column());
+    proxy->setFilterCaseSensitivity(Qt::CaseInsensitive);
+    proxy->setFilterFixedString(ui->leFilter->text());
+}
+
+void SqlTableWin::on_bnUnSetFilter_clicked()
+{
+    proxy->setFilterFixedString("");
+}
+
+void SqlTableWin::on_bnAdd_clicked()
+{
+    int rowCount = proxy->rowCount();
+    proxy->insertRow(rowCount);
+    ui->sqlTableView->selectRow(rowCount);
+}
+
+void SqlTableWin::on_bnDelete_clicked()
+{
+    int currentRow = ui->sqlTableView->currentIndex().row();
+    proxy->removeRow(currentRow);
+    ui->sqlTableView->hideRow(currentRow);
+    ui->sqlTableView->selectRow(currentRow-1);
 }
