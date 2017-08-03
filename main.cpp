@@ -6,6 +6,9 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     a.setWindowIcon(QIcon(QPixmap(":/images/terminal.png")));
 
+    QApplication::setOrganizationName("DrWebber");
+    QApplication::setApplicationName("Workbench");
+
     MainWindow w;
     w.show();
 

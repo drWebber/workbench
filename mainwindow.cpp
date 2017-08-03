@@ -166,3 +166,10 @@ void MainWindow::slotValLeEdtFinished()
     model->select();
     ui->tableView->setModel(model);
 }
+
+void MainWindow::on_mMultEdit_triggered()
+{
+    mult = new MultiplicyEditor("multiplicy");
+    mult->setParent(this, Qt::Window);
+    mult->exec();
+}

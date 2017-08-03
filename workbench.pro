@@ -33,15 +33,16 @@ SOURCES += main.cpp\
     import/priceimport.cpp \
     delegates/sqlinsdelegate.cpp \
     import/nomenclature.cpp \
-    editor/sqltablewin.cpp \
+    editors/sqltablewin.cpp \
     clipboard/clipboardworker.cpp \
-    editor/sqlrelationaltablemodel.cpp \
-    editor/outertexttable.cpp \
-    editor/keywordseditor.cpp \
-    editor/patteditor.cpp \
-    editor/parameditor.cpp \
-    editor/prodeditor.cpp \
-    editor/manufacturerseditor.cpp
+    editors/sqlrelationaltablemodel.cpp \
+    editors/outertexttable.cpp \
+    editors/keywordseditor.cpp \
+    editors/patteditor.cpp \
+    editors/parameditor.cpp \
+    editors/prodeditor.cpp \
+    editors/manufacturerseditor.cpp \
+    editors/multiplicyeditor.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -51,15 +52,16 @@ HEADERS  += mainwindow.h \
     delegates/sqlinsdelegate.h \
     sql/sqlquery.h \
     sqltableviewwindow.h \
-    editor/sqltablewin.h \
+    editors/sqltablewin.h \
     clipboard/clipboardworker.h \
-    editor/sqlrelationaltablemodel.h \
-    editor/outertexttable.h \
-    editor/keywordseditor.h \
-    editor/patteditor.h \
-    editor/parameditor.h \
-    editor/prodeditor.h \
-    editor/manufacturerseditor.h
+    editors/sqlrelationaltablemodel.h \
+    editors/outertexttable.h \
+    editors/keywordseditor.h \
+    editors/patteditor.h \
+    editors/parameditor.h \
+    editors/prodeditor.h \
+    editors/manufacturerseditor.h \
+    editors/multiplicyeditor.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \

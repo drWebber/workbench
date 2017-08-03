@@ -32,17 +32,19 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
                                                                                      //начало задано в бд остатков
         int counter(0);
         while(!stream.atEnd()){
-           QString line = stream.readLine();
-           QStringList item = line.split(";");
-           QString article = item[articleCol];
-           QString description = item[nomenclatureCol];
-           QString unit = item[unitCol];
-           if (article == "") continue;
+            QString line = stream.readLine();
+            QStringList item = line.split(";");
+            if (item.count() > 2) {
+                QString article = item[articleCol];
+                QString description = item[nomenclatureCol];
+                QString unit = item[unitCol];
+                if (article == "") continue;
                 values.append("'" + article + "', ");
                 values.append("'" + description + "', ");
-//                values.append("'" + item[unitCol] + "', ");
+                //                values.append("'" + item[unitCol] + "', ");
                 values.append("'" + QString::number(mid) + "')");
                 if (!statement.exec(productQuery + values)) {
+                    qDebug() << "Ошибка внесения номенклатуры";
                     printSqlError(statement);
                 } else {
                     sqlMultiplicyInsert(article, mid, unit);
@@ -51,9 +53,11 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
                 counter++;
                 if(counter%10) ui->progressBar->setValue(counter);
             }
-            ui->progressBar->setValue(rowCount);
-            stream.flush();
+
         }
+        ui->progressBar->setValue(rowCount);
+        stream.flush();
+    }
 
     statement.exec("COMMIT");
 
@@ -65,7 +69,6 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
 
 void Nomenclature::printSqlError(QSqlQuery &query)
 {
-    qDebug() << "Ошибка выполения sql-запроса";
     qDebug() << query.lastError();
     qDebug() << query.last();
 }
@@ -81,8 +84,6 @@ void Nomenclature::sqlMultiplicyInsert(const QString &article, const int &mid, c
     if(!multQuery.exec()){
         qDebug() << "muilt insertion error";
         printSqlError(multQuery);
-    } else {
-        qDebug() << multQuery.lastQuery();
     }
 
 }

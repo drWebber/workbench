@@ -1,4 +1,4 @@
-#include "editor/sqltablewin.h"
+#include "editors/sqltablewin.h"
 #include "ui_sqltablewin.h"
 #include <qsqlquery.h>
 #include <qdebug.h>

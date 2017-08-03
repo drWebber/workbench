@@ -6,15 +6,16 @@
 #include <qsqlrelationaltablemodel.h>
 #include <qsqlquery.h>
 #include <qsqlrecord.h>
-#include "editor/sqltablewin.h"
+#include "editors/sqltablewin.h"
 #include "import/importdata.h"
 #include "import/nomenclature.h"
 #include "import/priceimport.h"
-#include "editor/keywordseditor.h"
-#include <editor/manufacturerseditor.h>
-#include <editor/parameditor.h>
-#include <editor/patteditor.h>
-#include <editor/prodeditor.h>
+#include "editors/keywordseditor.h"
+#include "editors/manufacturerseditor.h"
+#include "editors/parameditor.h"
+#include "editors/patteditor.h"
+#include "editors/prodeditor.h"
+#include "editors/multiplicyeditor.h"
 #include <qlist.h>
 
 namespace Ui {
@@ -45,16 +46,18 @@ private:
     QLabel **lbArr;
     QLineEdit **leArr;
     KeywordsEditor *keywords;
+    MultiplicyEditor *mult;
     PattEditor *patt;
     ManufacturersEditor *manufacturersEditor;
     ParamEditor *param;
     ProdEditor *prod;
     Nomenclature *nomenclature;
     PriceImport *priceImport;
-
     // QWidget interface
 protected:
     void keyPressEvent(QKeyEvent *event) override;
+private slots:
+    void on_mMultEdit_triggered();
 };
 
 #endif // MAINWINDOW_H

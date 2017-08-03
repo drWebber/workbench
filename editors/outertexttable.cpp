@@ -4,8 +4,8 @@
 #include <QVectorIterator>
 #include <qmessagebox.h>
 #include <QMapIterator>
-#include "editor/keywordseditor.h"
-#include "editor/prodeditor.h"
+#include "editors/keywordseditor.h"
+#include "editors/prodeditor.h"
 
 OuterTextTable::OuterTextTable(QVector<QVector<QString> > outerTextTabe, SqlRelationalTableModel *model)
 {

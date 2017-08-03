@@ -1,5 +1,5 @@
 #include "delegates/sqlinsdelegate.h"
-#include "editor/sqltablewin.h"
+#include "editors/sqltablewin.h"
 #include <qdebug.h>
 #include <qlineedit.h>
 #include <qmessagebox.h>

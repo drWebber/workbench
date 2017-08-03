@@ -136,6 +136,7 @@
     <addaction name="mParamEdit"/>
     <addaction name="mProdEdit"/>
     <addaction name="mManEdit"/>
+    <addaction name="mMultEdit"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -206,6 +207,11 @@
   <action name="mPriceEdit">
    <property name="text">
     <string>Прайс</string>
+   </property>
+  </action>
+  <action name="mMultEdit">
+   <property name="text">
+    <string>Кратность упаковки</string>
    </property>
   </action>
  </widget>
