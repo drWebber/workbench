@@ -173,3 +173,58 @@ void MainWindow::on_mMultEdit_triggered()
     mult->setParent(this, Qt::Window);
     mult->exec();
 }
+
+void MainWindow::on_mClearAll_triggered()
+{
+    QStringList tables;
+    tables << "keywords" << "manufacturers" << "multiplicy" << "params"
+           << "patterns" << "products" << "store" << "store_date" << "store_manufacturer";
+    foreach (QString table, tables) {
+        QSqlQuery().exec("TRUNCATE TABLE " + table);
+    }
+}
+
+void MainWindow::on_mClearStoreMan_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `store_manufacturer`");
+}
+
+void MainWindow::on_mClearStore_date_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `store_date`");
+}
+
+void MainWindow::on_mClearStore_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `store`");
+}
+
+void MainWindow::on_mClearPatterns_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `patterns`");
+}
+
+void MainWindow::on_mClearParams_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `params`");
+}
+
+void MainWindow::on_mClearMultiplicy_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `multiplicy`");
+}
+
+void MainWindow::on_mClearManufacturers_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `manufacturers`");
+}
+
+void MainWindow::on_mClearkeywords_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `keywords`");
+}
+
+void MainWindow::on_mClearProducts_triggered()
+{
+    QSqlQuery().exec("TRUNCATE TABLE `products`");
+}

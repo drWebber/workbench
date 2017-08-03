@@ -58,6 +58,16 @@ protected:
     void keyPressEvent(QKeyEvent *event) override;
 private slots:
     void on_mMultEdit_triggered();
+    void on_mClearAll_triggered();
+    void on_mClearStoreMan_triggered();
+    void on_mClearStore_date_triggered();
+    void on_mClearStore_triggered();
+    void on_mClearPatterns_triggered();
+    void on_mClearParams_triggered();
+    void on_mClearMultiplicy_triggered();
+    void on_mClearManufacturers_triggered();
+    void on_mClearkeywords_triggered();
+    void on_mClearProducts_triggered();
 };
 
 #endif // MAINWINDOW_H

@@ -145,9 +145,25 @@
     <addaction name="mNomenclEdit"/>
     <addaction name="mPriceEdit"/>
    </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>Разработка</string>
+    </property>
+    <addaction name="mClearProducts"/>
+    <addaction name="mClearkeywords"/>
+    <addaction name="mClearManufacturers"/>
+    <addaction name="mClearMultiplicy"/>
+    <addaction name="mClearParams"/>
+    <addaction name="mClearPatterns"/>
+    <addaction name="mClearStore"/>
+    <addaction name="mClearStore_date"/>
+    <addaction name="mClearStoreMan"/>
+    <addaction name="mClearAll"/>
+   </widget>
    <addaction name="mFile"/>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
+   <addaction name="menu_3"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -212,6 +228,56 @@
   <action name="mMultEdit">
    <property name="text">
     <string>Кратность упаковки</string>
+   </property>
+  </action>
+  <action name="mClearProducts">
+   <property name="text">
+    <string>Очистить &quot;products&quot;</string>
+   </property>
+  </action>
+  <action name="mClearkeywords">
+   <property name="text">
+    <string>Очистить &quot;keywords&quot;</string>
+   </property>
+  </action>
+  <action name="mClearManufacturers">
+   <property name="text">
+    <string>Очистить &quot;manufacturers&quot;</string>
+   </property>
+  </action>
+  <action name="mClearMultiplicy">
+   <property name="text">
+    <string>Очистить &quot;multiplicy&quot;</string>
+   </property>
+  </action>
+  <action name="mClearParams">
+   <property name="text">
+    <string>Очистить &quot;params&quot;</string>
+   </property>
+  </action>
+  <action name="mClearPatterns">
+   <property name="text">
+    <string>Очистить &quot;patterns&quot;</string>
+   </property>
+  </action>
+  <action name="mClearStore">
+   <property name="text">
+    <string>Очистить &quot;store&quot;</string>
+   </property>
+  </action>
+  <action name="mClearStore_date">
+   <property name="text">
+    <string>Очистить &quot;store_date&quot;</string>
+   </property>
+  </action>
+  <action name="mClearStoreMan">
+   <property name="text">
+    <string>Очистить &quot;store_manufacturer&quot;</string>
+   </property>
+  </action>
+  <action name="mClearAll">
+   <property name="text">
+    <string>Очистить все таблицы</string>
    </property>
   </action>
  </widget>
