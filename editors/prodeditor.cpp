@@ -5,7 +5,7 @@ ProdEditor::ProdEditor(QString tableName, QWidget *parent) : SqlTableWin(tableNa
     setMinimumWidth(1024);
     setWindowTitle("Редактор продуктов");
     hideColumns();
-    model->setRelation(5, QSqlRelation("manufacturers", "mid", "name"));
+    model->setRelation(3, QSqlRelation("manufacturers", "mid", "name"));
     model->select();
 }
 
@@ -15,7 +15,7 @@ ProdEditor::ProdEditor(QString tableName, QStringList valsToInsert, QWidget *par
     setMinimumWidth(1024);
     setWindowTitle("Редактор продуктов");
     hideColumns();
-    model->setRelation(5, QSqlRelation("manufacturers", "mid", "name"));
+    model->setRelation(3, QSqlRelation("manufacturers", "mid", "name"));
     model->select();
     foreach (QString val, valsToInsert) {
         int newRow = model->rowCount();

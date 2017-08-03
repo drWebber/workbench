@@ -32,8 +32,6 @@ protected:
     SqlQuery sqe;
     QMenu *menu;
 protected slots:
-    void slotAddRow();
-    void slotDelRow();
     void onPasteActionTriggered();
     void onMenuRequested(QPoint pos);
     void onFirstRowEntered(QModelIndex indx);
@@ -43,6 +41,15 @@ protected slots:
 protected:
     Ui::SqlTableWin *ui;
     void closeEvent(QCloseEvent *event) override;
+private slots:
+    void on_bnSetFilter_clicked();
+
+    void on_bnUnSetFilter_clicked();
+
+    void on_bnAdd_clicked();
+
+    void on_bnDelete_clicked();
+
 private:
     void setUp(QString tableName);
 };

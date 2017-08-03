@@ -2,5 +2,9 @@
     <qresource prefix="/images">
         <file>savesettings.png</file>
         <file>terminal.png</file>
+        <file>filter-add-icon.png</file>
+        <file>filter-delete-icon.png</file>
+        <file>Button-Add-icon.png</file>
+        <file>Button-Delete-icon.png</file>
     </qresource>
 </RCC>
