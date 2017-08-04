@@ -15,100 +15,107 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="lbKey">
-        <property name="text">
-         <string>Ключ</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="leKey">
-        <property name="text">
-         <string>лон</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item row="0" column="1">
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="4">
-       <widget class="QLineEdit" name="leVal5"/>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="leVal4"/>
-      </item>
-      <item row="1" column="6">
-       <widget class="QLineEdit" name="leVal7"/>
-      </item>
-      <item row="1" column="5">
-       <widget class="QLineEdit" name="leVal6"/>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLineEdit" name="leVal1"/>
-      </item>
-      <item row="0" column="3">
-       <widget class="QLabel" name="lbPatt4">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="lbPatt5">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="leVal3"/>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="lbPatt1">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+    <item row="2" column="1">
+     <layout class="QGridLayout" name="gridLayout_3">
+      <item row="2" column="1">
+       <widget class="QTableView" name="tbvInvoice"/>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="leVal2"/>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="lbPatt3">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QLabel" name="lbPatt6">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       <widget class="QTableView" name="tableView"/>
       </item>
       <item row="0" column="1">
-       <widget class="QLabel" name="lbPatt2">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="6">
-       <widget class="QLabel" name="lbPatt7">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <widget class="QLabel" name="lbKey">
+          <property name="text">
+           <string>Ключ</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="leKey">
+          <property name="text">
+           <string>лон</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="5">
+           <widget class="QLineEdit" name="leVal6"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLineEdit" name="leVal1"/>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="leVal2"/>
+          </item>
+          <item row="0" column="4">
+           <widget class="QLabel" name="lbPatt5">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="3">
+           <widget class="QLabel" name="lbPatt4">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="3">
+           <widget class="QLineEdit" name="leVal4"/>
+          </item>
+          <item row="1" column="4">
+           <widget class="QLineEdit" name="leVal5"/>
+          </item>
+          <item row="1" column="6">
+           <widget class="QLineEdit" name="leVal7"/>
+          </item>
+          <item row="1" column="2">
+           <widget class="QLineEdit" name="leVal3"/>
+          </item>
+          <item row="0" column="0">
+           <widget class="QLabel" name="lbPatt1">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="lbPatt3">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLabel" name="lbPatt2">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="6">
+           <widget class="QLabel" name="lbPatt7">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5">
+           <widget class="QLabel" name="lbPatt6">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </item>
      </layout>
-    </item>
-    <item row="1" column="0" colspan="2">
-     <widget class="QTableView" name="tableView"/>
     </item>
    </layout>
   </widget>
@@ -291,26 +298,9 @@
   <tabstop>leVal5</tabstop>
   <tabstop>leVal6</tabstop>
   <tabstop>leVal7</tabstop>
-  <tabstop>tableView</tabstop>
  </tabstops>
  <resources/>
  <connections>
-  <connection>
-   <sender>leKey</sender>
-   <signal>editingFinished()</signal>
-   <receiver>MainWindow</receiver>
-   <slot>leKeyEdFinished()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>36</x>
-     <y>71</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>425</x>
-     <y>283</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>mFileExit</sender>
    <signal>triggered(bool)</signal>

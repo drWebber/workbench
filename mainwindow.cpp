@@ -4,6 +4,7 @@
 #include <qtableview.h>
 #include <QLabel>
 #include <qevent.h>
+#include <qstandarditemmodel.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,70 +16,33 @@ MainWindow::MainWindow(QWidget *parent) :
     SqlConn sc = SqlConn();
     sc.connect();
 
+    QSqlQuery query;
+    query.exec("SET NAMES 'cp1251'");
+
     sq = new SqlQuery();
 
-    lbArr = new QLabel* [7];
-    lbArr[0] = ui->lbPatt1;
-    lbArr[1] = ui->lbPatt2;
-    lbArr[2] = ui->lbPatt3;
-    lbArr[3] = ui->lbPatt4;
-    lbArr[4] = ui->lbPatt5;
-    lbArr[5] = ui->lbPatt6;
-    lbArr[6] = ui->lbPatt7;
+    ui->leKey->installEventFilter(this);
 
-    leArr = new QLineEdit* [7];
-    leArr[0] = ui->leVal1;
-    leArr[1] = ui->leVal2;
-    leArr[2] = ui->leVal3;
-    leArr[3] = ui->leVal4;
-    leArr[4] = ui->leVal5;
-    leArr[5] = ui->leVal6;
-    leArr[6] = ui->leVal7;
+    labels << ui->lbPatt1 << ui->lbPatt2 << ui->lbPatt3 << ui->lbPatt4
+           << ui->lbPatt5 << ui->lbPatt6 << ui->lbPatt7;
+
+    lineEdits << ui->leVal1 << ui->leVal2 << ui->leVal3 << ui->leVal4
+              << ui->leVal5 << ui->leVal6 << ui->leVal7;
+
+    pc = new ProductConstructor(labels, lineEdits);
+    pv = new ProductVariety(lineEdits);
+
+    invoiceModel = new QStandardItemModel(this);
+    ui->tbvInvoice->setModel(invoiceModel);
+
+    sqlmodel = new QSqlRelationalTableModel(this);
+    sqlmodel->setTable("products");
+    sqlmodel->setJoinMode(QSqlRelationalTableModel::LeftJoin);
 }
 
 MainWindow::~MainWindow()
 {
     delete ui;
-}
-
-void MainWindow::testslot()
-{
-
-    QSqlRelationalTableModel *model = new QSqlRelationalTableModel(0);
-    model->setTable("params");
-
-
-    if (!model->select()) {
-        qDebug() << model->lastError();
-        qDebug() << QSqlDatabase::database();
-    }
-    ui->tableView->setModel(model);
-}
-
-int MainWindow::leKeyEdFinished()
-{
-    QSqlQuery query;
-    query.exec("SET NAMES 'cp1251'");
-    for (int i(0); i < 7; i++) {
-        lbArr[i]->text().clear();
-    }
-    QString keyword = ui->leKey->text();
-    query.prepare("SELECT * FROM patterns WHERE kid = (SELECT kid FROM keywords WHERE name = :name)");
-    query.bindValue(":name", keyword);
-    if (!query.exec())
-    {
-        qDebug() << "here" << query.lastError().text();
-        return 0;
-    }
-    QSqlRecord rc = query.record();
-
-    query.next();
-    for(int i(0); i < 7; i++) {
-        int indx = rc.indexOf("val"+QString::number(i+1));
-        lbArr[i]->setText(query.value(indx).toString());
-    }
-    query.clear();
-    return 1;
 }
 
 void MainWindow::slotMKeyEditTriggered()
@@ -143,30 +107,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::slotValLeEdtFinished()
 {
-    QString kid = sq->getSingleVal("SELECT kid FROM keywords WHERE name = '" + ui->leKey->text() + "'").toString();
-
-    QString query = "SELECT pid FROM params WHERE kid = '" + kid + "'";
+    QString key = ui->leKey->text();
     int sender = this->sender()->objectName().right(1).toInt();
-    for (int i(1); i <= sender; i++){
-        QString tmp = leArr[i-1]->text();
-        if(tmp != "") query.append(" AND param" + QString::number(i) + " = '" + leArr[i-1]->text() + "'");
-    }
 
-    QSqlRelationalTableModel *model = new QSqlRelationalTableModel();
-    model->setTable("products");
-    model->setJoinMode(QSqlRelationalTableModel::LeftJoin);
-
-    QVector<QString> pids = sq->getSingleVals(query);
-    QString where = "pid IN (";
-    for (int i(0); i < pids.size(); i++) {
-        where.append("'" + pids[i] + "', ");
-    }
-    where = where.left(where.size()-2);
-    where.append(")");
-    qDebug() << where;
-    model->setFilter(where);
-    model->select();
-    ui->tableView->setModel(model);
+    sqlmodel->setFilter(pv->getFilter(key, sender));
+    sqlmodel->select();
+    sqlmodel->insertColumns(sqlmodel->columnCount(), 3);
+    ui->tableView->setModel(sqlmodel);
 }
 
 void MainWindow::on_mMultEdit_triggered()
@@ -229,4 +176,34 @@ void MainWindow::on_mClearkeywords_triggered()
 void MainWindow::on_mClearProducts_triggered()
 {
     QSqlQuery().exec("TRUNCATE TABLE `products`");
+}
+
+void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
+{
+    QList<QStandardItem *> items;
+    for (int i = 0; i < sqlmodel->columnCount(); ++i) {
+        QModelIndex tmp = sqlmodel->index(ui->tableView->currentIndex().row(), i);
+        items.append(new QStandardItem(sqlmodel->data(tmp).toString()));
+    }
+    invoiceModel->appendRow(items);
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    // Для ui->leKey устанавливаем собственный обработчик нажатия tab
+    if (watched == ui->leKey) {
+        if (event->type() == QEvent::KeyPress) {
+            QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+            if (keyEvent->key() == Qt::Key_Tab) {
+                    QString key = ui->leKey->text();
+                    if (!pc->setProductPatterns(key)) {
+                        pc->clearLabels();
+                        ui->leKey->setFocus();
+                        ui->leKey->setSelection(0, key.length());
+                        return true;
+                    }
+            }
+        }
+    }
+    return false;
 }

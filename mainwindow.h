@@ -16,6 +16,9 @@
 #include "editors/patteditor.h"
 #include "editors/prodeditor.h"
 #include "editors/multiplicyeditor.h"
+#include "product-selection/productconstructor.h"
+#include "product-selection/productvariety.h"
+#include <qstandarditemmodel.h>
 #include <qlist.h>
 
 namespace Ui {
@@ -30,8 +33,6 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 public slots:
-    void testslot();
-    int leKeyEdFinished();
     void slotMKeyEditTriggered();
     void slotMPattEditTriggered();
     void slotMParamEditTriggered();
@@ -42,9 +43,11 @@ public slots:
     void slotMPriceEditTriggered();
 private:
     Ui::MainWindow *ui;
+    QSqlRelationalTableModel *sqlmodel;
+    QStandardItemModel *invoiceModel;
     SqlQuery *sq;
-    QLabel **lbArr;
-    QLineEdit **leArr;
+    QList<QLabel *> labels;
+    QList<QLineEdit *> lineEdits;
     KeywordsEditor *keywords;
     MultiplicyEditor *mult;
     PattEditor *patt;
@@ -53,6 +56,8 @@ private:
     ProdEditor *prod;
     Nomenclature *nomenclature;
     PriceImport *priceImport;
+    ProductConstructor *pc;
+    ProductVariety *pv;
     // QWidget interface
 protected:
     void keyPressEvent(QKeyEvent *event) override;
@@ -68,6 +73,11 @@ private slots:
     void on_mClearManufacturers_triggered();
     void on_mClearkeywords_triggered();
     void on_mClearProducts_triggered();
+    void on_tableView_doubleClicked(const QModelIndex &index);
+
+    // QObject interface
+public:
+    bool eventFilter(QObject *watched, QEvent *event);
 };
 
 #endif // MAINWINDOW_H
