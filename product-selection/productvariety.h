@@ -10,10 +10,11 @@ class ProductVariety
 public:
     ProductVariety(QList<QLineEdit *> lineEdits);
     QString getFilter(const QString &key, const int &sender);
+    QVector<QStringList> getStoreRemainings(const QList<int> &pids, const QList<int> &mids);
 private:
+    QStringList getItemRemainings(const int &pid, const int &mid);
     QSqlQuery *query;
     QList<QLineEdit *> lineEdits;
-    QStringList pids;
 };
 
 #endif // PRODUCTVARIETY_H

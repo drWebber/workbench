@@ -6,6 +6,10 @@
 #include <qevent.h>
 #include <qstandarditemmodel.h>
 
+enum colNames {
+    col_pid, col_art, col_desc, col_mid
+};
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -112,7 +116,23 @@ void MainWindow::slotValLeEdtFinished()
 
     sqlmodel->setFilter(pv->getFilter(key, sender));
     sqlmodel->select();
-    sqlmodel->insertColumns(sqlmodel->columnCount(), 3);
+
+    QList<int> mids, pids;
+    for (int i = 0; i < sqlmodel->rowCount(); ++i) {
+        pids.append(sqlmodel->data(sqlmodel->index(i, col_pid)).toInt());
+        mids.append(sqlmodel->data(sqlmodel->index(i, col_mid)).toInt());
+    }
+    QVector<QStringList> remainings = pv->getStoreRemainings(pids, mids);
+    int columns = sqlmodel->columnCount();
+    sqlmodel->insertColumns(columns, 3);
+    qDebug() << "columns: " << columns;
+    for (int i = 0; i < remainings.count(); ++i) {
+        for (int j = 0; j < remainings[i].count(); ++j) {
+            qDebug() << "remainings[i][j]" << remainings[i][j];
+            sqlmodel->setData(sqlmodel->index(i, columns + j), remainings[i][j]);
+        }
+    }
+
     ui->tableView->setModel(sqlmodel);
 }
 
