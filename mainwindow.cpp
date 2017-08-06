@@ -41,7 +41,21 @@ MainWindow::MainWindow(QWidget *parent) :
 
     sqlmodel = new QSqlRelationalTableModel(this);
     sqlmodel->setTable("products");
+    sqlmodel->setHeaderData(0, Qt::Horizontal, "Pid");
+    sqlmodel->setHeaderData(1, Qt::Horizontal, "Артикул");
+    sqlmodel->setHeaderData(2, Qt::Horizontal, "Наименование");
+    sqlmodel->setHeaderData(3, Qt::Horizontal, "Производитель");
     sqlmodel->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+    ui->tableView->setModel(sqlmodel);
+
+    itemModel = new QStandardItemModel(this);
+    itemModel->insertColumns(0, 3);
+    ui->tbvItemInfo->setModel(itemModel);
+    ui->tbvItemInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    itemModel->setHeaderData(0, Qt::Horizontal, "Витебск");
+    itemModel->setHeaderData(1, Qt::Horizontal, "Минск");
+    itemModel->setHeaderData(2, Qt::Horizontal, "Внешние");
+    pi = new ProductInfo(itemModel);
 }
 
 MainWindow::~MainWindow()
@@ -122,18 +136,9 @@ void MainWindow::slotValLeEdtFinished()
         pids.append(sqlmodel->data(sqlmodel->index(i, col_pid)).toInt());
         mids.append(sqlmodel->data(sqlmodel->index(i, col_mid)).toInt());
     }
-    QVector<QStringList> remainings = pv->getStoreRemainings(pids, mids);
-    int columns = sqlmodel->columnCount();
-    sqlmodel->insertColumns(columns, 3);
-    qDebug() << "columns: " << columns;
-    for (int i = 0; i < remainings.count(); ++i) {
-        for (int j = 0; j < remainings[i].count(); ++j) {
-            qDebug() << "remainings[i][j]" << remainings[i][j];
-            sqlmodel->setData(sqlmodel->index(i, columns + j), remainings[i][j]);
-        }
-    }
 
-    ui->tableView->setModel(sqlmodel);
+    pi->setRemainingsData(pv->getStoreRemainings(pids, mids));
+
 }
 
 void MainWindow::on_mMultEdit_triggered()

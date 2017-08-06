@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     editors/manufacturerseditor.cpp \
     editors/multiplicyeditor.cpp \
     product-selection/productconstructor.cpp \
-    product-selection/productvariety.cpp
+    product-selection/productvariety.cpp \
+    product-selection/productinfo.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -65,7 +66,8 @@ HEADERS  += mainwindow.h \
     editors/manufacturerseditor.h \
     editors/multiplicyeditor.h \
     product-selection/productconstructor.h \
-    product-selection/productvariety.h
+    product-selection/productvariety.h \
+    product-selection/productinfo.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \
