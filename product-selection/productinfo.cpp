@@ -5,7 +5,7 @@ ProductInfo::ProductInfo(QStandardItemModel *model)
     this->model = model;
 }
 
-void ProductInfo::setRemainingsData(QVector<QStringList> &remainings)
+void ProductInfo::setRemainingsData(const QVector<QStringList> &remainings)
 {
     removeAllRows();
     for (int i = 0; i < remainings.count(); ++i) {

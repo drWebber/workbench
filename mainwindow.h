@@ -7,6 +7,7 @@
 #include <qstandarditemmodel.h>
 #include <qsqlquery.h>
 #include <qsqlrecord.h>
+#include <qcompleter.h>
 #include "editors/sqltablewin.h"
 #include "import/importdata.h"
 #include "import/nomenclature.h"
@@ -45,12 +46,12 @@ public slots:
     void slotMPriceEditTriggered();
 private:
     Ui::MainWindow *ui;
+    QList<QLabel *> labels;
+    QList<QLineEdit *> lineEdits;
     QSqlRelationalTableModel *sqlmodel;
     QStandardItemModel *itemModel;
     QStandardItemModel *invoiceModel;
     SqlQuery *sq;
-    QList<QLabel *> labels;
-    QList<QLineEdit *> lineEdits;
     KeywordsEditor *keywords;
     MultiplicyEditor *mult;
     PattEditor *patt;
@@ -78,8 +79,6 @@ private slots:
     void on_mClearkeywords_triggered();
     void on_mClearProducts_triggered();
     void on_tableView_doubleClicked(const QModelIndex &index);
-
-    // QObject interface
 public:
     bool eventFilter(QObject *watched, QEvent *event);
 };

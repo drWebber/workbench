@@ -14,6 +14,7 @@ ProductConstructor::ProductConstructor(QList<QLabel *> &labels, QList<QLineEdit 
 
 bool ProductConstructor::setProductPatterns(const QString &keyword)
 {
+    this->keyword = keyword;
     clearLabels();
 
     QSqlQuery query;
@@ -43,4 +44,22 @@ void ProductConstructor::clearLabels()
     foreach (QLabel *label, labels) {
         label->setText("");
     }
+}
+
+QStringList ProductConstructor::getCompletions(int &sender)
+{
+    QString param = "param" + QString::number(sender);
+    QSqlQuery query;
+    query.prepare("SELECT DISTINCT " + param + " FROM `params` "
+                  "WHERE kid = (SELECT `kid` FROM `keywords` "
+                                "WHERE `name` = :name)");
+    query.bindValue(":name", keyword);
+    query.exec();
+
+    QStringList result;
+    while (query.next()) {
+        result.append(query.value(0).toString());
+    }
+    return result;
+
 }

@@ -53,7 +53,6 @@ QVector<QStringList> ProductVariety::getStoreRemainings(const QList<int> &pids, 
     for (int i = 0; i < pids.count(); ++i) {
         remainings.append(getItemRemainings(pids[i], mids[i]));
     }
-    qDebug() << remainings;
     return remainings;
 }
 

@@ -8,7 +8,7 @@ class ProductInfo
 {
 public:
     ProductInfo(QStandardItemModel *model);
-    void setRemainingsData(QVector<QStringList> &remainings);
+    void setRemainingsData(const QVector<QStringList> &remainings);
     void removeAllRows();
 private:
     QStandardItemModel *model;
