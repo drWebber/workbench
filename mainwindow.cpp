@@ -33,11 +33,13 @@ MainWindow::MainWindow(QWidget *parent) :
     lineEdits << ui->leVal1 << ui->leVal2 << ui->leVal3 << ui->leVal4
               << ui->leVal5 << ui->leVal6 << ui->leVal7;
 
-    foreach (QLineEdit *edit, lineEdits) {
-        edit->installEventFilter(this);
-    }
+
 
     pc = new ProductConstructor(labels, lineEdits);
+    foreach (QLineEdit *edit, lineEdits) {
+        edit->installEventFilter(pc);
+    }
+
     pv = new ProductVariety(lineEdits);
 
     invoiceModel = new QStandardItemModel(this);
@@ -132,7 +134,6 @@ void MainWindow::slotValLeEdtFinished()
     QString key = ui->leKey->text();
     int sender = this->sender()->objectName().right(1).toInt();
 
-    qDebug() << pc->getCompletions(sender);
     sqlmodel->setFilter(pv->getFilter(key, sender));
     sqlmodel->select();
 
@@ -220,18 +221,7 @@ void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    //отслеживаем Ctrl+Space для полей ввода ProductConstructor
-    if (event->type() == QEvent::KeyPress){
-        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-        if (keyEvent->key() == Qt::Key_Space) {
-            qDebug() << "space";
-            if (keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
-                qDebug() << "Ctrl + space";
-            }
-        } else {
-            qDebug() << keyEvent->key();
-        }
-    }
+    //не забываем про installeventfilter для желаемого объекта
 
     // Для ui->leKey устанавливаем собственный обработчик нажатия tab
     if (watched == ui->leKey) {
@@ -248,23 +238,5 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             }
         }
     }
-
-
-
-//    foreach (QLineEdit *le, lineEdits) {
-//        qDebug() << "watched" << watched << "le" << le;
-//        if (watched == le) {
-//            qDebug() << le->text();
-//            if (event->type() == QEvent::KeyPress) {
-//                QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
-//                if (keyEvent->key() == Qt::Key_Space) {
-//                    //проверяем, зажат ли ctrl
-//                    if (keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
-//                        qDebug() << sender()->objectName();
-//                    }
-//                }
-//            }
-//        }
-//    }
     return false;
 }

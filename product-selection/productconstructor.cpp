@@ -3,8 +3,9 @@
 #include <qsqlerror.h>
 #include <qmessagebox.h>
 #include <qsqlrecord.h>
-
+#include <qevent.h>
 #include <qdebug.h>
+#include <qstring.h>
 
 ProductConstructor::ProductConstructor(QList<QLabel *> &labels, QList<QLineEdit *> edits)
 {
@@ -46,14 +47,15 @@ void ProductConstructor::clearLabels()
     }
 }
 
-QStringList ProductConstructor::getCompletions(int &sender)
+QStringList ProductConstructor::getCompletions(const QString &sender)
 {
-    QString param = "param" + QString::number(sender);
+    QString param = "param" + sender;
     QSqlQuery query;
     query.prepare("SELECT DISTINCT " + param + " FROM `params` "
                   "WHERE kid = (SELECT `kid` FROM `keywords` "
                                 "WHERE `name` = :name)");
     query.bindValue(":name", keyword);
+    qDebug() << "keyword" << keyword;
     query.exec();
 
     QStringList result;
@@ -61,5 +63,24 @@ QStringList ProductConstructor::getCompletions(int &sender)
         result.append(query.value(0).toString());
     }
     return result;
+}
 
+bool ProductConstructor::eventFilter(QObject *watched, QEvent *event)
+{
+    //отслеживаем Ctrl+Space для полей ввода ProductConstructor
+    if (event->type() == QEvent::KeyPress){
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Space) {
+            if (keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
+                QString sender = watched->objectName().right(1);
+                completer = new QCompleter(getCompletions(sender));
+                completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
+                int id = sender.toInt()-1;
+                edits[id]->setCompleter(completer);
+                edits[id]->completer()->complete();
+                return true;
+            }
+        }
+    }
+    return false;
 }
