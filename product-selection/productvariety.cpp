@@ -10,15 +10,9 @@ ProductVariety::ProductVariety(QList<QLineEdit *> lineEdits)
 }
 
 QString ProductVariety::getFilter(const QString &key, const int &sender)
-{    
+{
     QStringList pids;
-    query->prepare("SELECT kid FROM keywords WHERE name = :name");
-    query->bindValue(":name", key);
-    query->exec();
-    if (!query->next()) return QString();
-
-    QString kid = query->value(0).toString();
-    QString pidQuery = "SELECT pid FROM params WHERE kid = '" + kid + "'";
+    QString pidQuery = "SELECT pid FROM params WHERE kid = (SELECT kid FROM keywords WHERE name = '" + key + "')";
     for (int i = 1; i <= sender; ++i) {
         QString param = lineEdits[i-1]->text();
         if (!param.isEmpty()) {
@@ -26,6 +20,7 @@ QString ProductVariety::getFilter(const QString &key, const int &sender)
                             " = '" + param + "'");
         }
     }
+//    qDebug() << pidQuery;
 
     query->exec(pidQuery);
     while (query->next()) {
