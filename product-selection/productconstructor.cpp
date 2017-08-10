@@ -55,7 +55,6 @@ QStringList ProductConstructor::getCompletions(const QString &sender)
                   "WHERE kid = (SELECT `kid` FROM `keywords` "
                                 "WHERE `name` = :name)");
     query.bindValue(":name", keyword);
-    qDebug() << "keyword" << keyword;
     query.exec();
 
     QStringList result;

@@ -23,11 +23,9 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
     int unitCol = ui->leThirdCol->text().toInt()-1;
 
     //читаем csv
-    QString productQuery = "INSERT INTO products(art, description, mid) VALUES (";
     QFile csvFile(csvFilePath);
     if(csvFile.open(QFile::ReadOnly | QFile::Text)) {
         QTextStream stream(&csvFile);
-        QString values;
         for (int i(0); i < ui->leStartRow->text().toInt()-1; i++) stream.readLine(); //пропускаем нужное число строк
                                                                                      //начало задано в бд остатков
         int counter(0);
@@ -36,54 +34,55 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
             QStringList item = line.split(";");
             if (item.count() > 2) {
                 QString article = item[articleCol];
-                QString description = item[nomenclatureCol];
-                QString unit = item[unitCol];
-                if (article == "") continue;
-                values.append("'" + article + "', ");
-                values.append("'" + description + "', ");
-                //                values.append("'" + item[unitCol] + "', ");
-                values.append("'" + QString::number(mid) + "')");
-                if (!statement.exec(productQuery + values)) {
-                    qDebug() << "Ошибка внесения номенклатуры";
-                    printSqlError(statement);
-                } else {
-                    sqlMultiplicyInsert(article, mid, unit);
-                }
-                values.clear();
+                QString desc = item[nomenclatureCol];
+                if (article.isEmpty() || desc.isEmpty()) continue;
+                sqlProductInsert(article, desc, QString::number(mid), item[unitCol]);
                 counter++;
                 if(counter%10) ui->progressBar->setValue(counter);
             }
-
         }
         ui->progressBar->setValue(rowCount);
         stream.flush();
     }
-
     statement.exec("COMMIT");
-
     csvFile.close();
     csvFile.remove();
-
     ui->progressBar->setVisible(false);
 }
 
 void Nomenclature::printSqlError(QSqlQuery &query)
 {
     qDebug() << query.lastError();
-    qDebug() << query.last();
 }
 
-void Nomenclature::sqlMultiplicyInsert(const QString &article, const int &mid, const QString &unit)
+void Nomenclature::sqlMultiplicyInsert(const QString &article, const QString &mid, const QString &unit)
 {
     QSqlQuery multQuery;
     multQuery.prepare("INSERT INTO multiplicy(pid, main_unit) VALUES((SELECT pid FROM products WHERE art = :art AND mid = :mid), :unit)");
     multQuery.bindValue(":art", article);
     multQuery.bindValue(":mid", mid);
     multQuery.bindValue(":unit", unit);
-
     if(!multQuery.exec()){
         qDebug() << "muilt insertion error";
+        qDebug() << article << mid << unit;
         printSqlError(multQuery);
     }
 
+}
+
+void Nomenclature::sqlProductInsert(const QString &article, const QString &description,
+                                    const QString &mid, const QString unit)
+{
+    QSqlQuery insQuery;
+    insQuery.prepare("INSERT INTO products(art, description, mid) VALUES(:art, :desc, :mid)");
+    insQuery.bindValue(":art", article);
+    insQuery.bindValue(":desc", description);
+    insQuery.bindValue(":mid", mid);
+    if (!insQuery.exec()) {
+        qDebug() << "Ошибка внесения номенклатуры";
+        qDebug() << article << description << unit;
+        printSqlError(insQuery);
+    } else {
+        sqlMultiplicyInsert(article, mid, unit);
+    }
 }
