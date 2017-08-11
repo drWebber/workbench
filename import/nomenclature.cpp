@@ -21,7 +21,7 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
     int articleCol = ui->leFirstCol->text().toInt()-1;
     int nomenclatureCol = ui->leSecCol->text().toInt()-1;
     int unitCol = ui->leThirdCol->text().toInt()-1;
-
+    int maxCol = max(articleCol, nomenclatureCol, unitCol);
     //читаем csv
     QFile csvFile(csvFilePath);
     if(csvFile.open(QFile::ReadOnly | QFile::Text)) {
@@ -32,7 +32,7 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
         while(!stream.atEnd()){
             QString line = stream.readLine();
             QStringList item = line.split(";");
-            if (item.count() > 2) {
+            if (item.count() > maxCol) {
                 QString article = item[articleCol];
                 QString desc = item[nomenclatureCol];
                 if (article.isEmpty() || desc.isEmpty()) continue;
@@ -55,6 +55,21 @@ void Nomenclature::printSqlError(QSqlQuery &query)
     qDebug() << query.lastError();
 }
 
+int Nomenclature::max(int i, int j, int k)
+{
+    if (i > j) {
+        if (i > k) {
+            return i;
+        } else {
+            return k;
+        }
+    } else if (j > k) {
+        return j;
+    } else {
+        return k;
+    }
+}
+
 void Nomenclature::sqlMultiplicyInsert(const QString &article, const QString &mid, const QString &unit)
 {
     QSqlQuery multQuery;
@@ -67,7 +82,6 @@ void Nomenclature::sqlMultiplicyInsert(const QString &article, const QString &mi
         qDebug() << article << mid << unit;
         printSqlError(multQuery);
     }
-
 }
 
 void Nomenclature::sqlProductInsert(const QString &article, const QString &description,
