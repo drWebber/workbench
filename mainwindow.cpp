@@ -5,6 +5,7 @@
 #include <QLabel>
 #include <qevent.h>
 #include <qstandarditemmodel.h>
+#include <QThread>
 
 enum colNames {
     col_pid, col_art, col_desc, col_mid
@@ -211,6 +212,7 @@ void MainWindow::on_mClearProducts_triggered()
 
 void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
 {
+    Q_UNUSED(index);
     QList<QStandardItem *> items;
     for (int i = 0; i < sqlmodel->columnCount(); ++i) {
         QModelIndex tmp = sqlmodel->index(ui->tableView->currentIndex().row(), i);

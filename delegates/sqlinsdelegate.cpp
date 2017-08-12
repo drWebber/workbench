@@ -21,6 +21,7 @@ SqlInsDelegate::SqlInsDelegate(QString table,
 QWidget *SqlInsDelegate::createEditor(QWidget *parent,
         const QModelIndex &index) const
 {
+    Q_UNUSED(index);
     QLineEdit *editor = new QLineEdit(parent);
     return editor;
 }
