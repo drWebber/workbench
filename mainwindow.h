@@ -20,7 +20,7 @@
 #include "editors/multiplicyeditor.h"
 #include "product-selection/productconstructor.h"
 #include "product-selection/productvariety.h"
-#include "product-selection/productinfo.h"
+#include "product-selection/productinfomodel.h"
 #include <qstandarditemmodel.h>
 #include <qlist.h>
 
@@ -48,8 +48,6 @@ private:
     Ui::MainWindow *ui;
     QList<QLabel *> labels;
     QList<QLineEdit *> lineEdits;
-    QSqlRelationalTableModel *sqlmodel;
-    QStandardItemModel *itemModel;
     QStandardItemModel *invoiceModel;
     SqlQuery *sq;
     KeywordsEditor *keywords;
@@ -62,7 +60,7 @@ private:
     PriceImport *priceImport;
     ProductConstructor *pc;
     ProductVariety *pv;
-    ProductInfo *pi;
+    ProductInfoModel* productModel;
     // QWidget interface
 protected:
     void keyPressEvent(QKeyEvent *event) override;

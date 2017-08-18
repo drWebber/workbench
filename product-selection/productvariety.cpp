@@ -9,31 +9,23 @@ ProductVariety::ProductVariety(QList<QLineEdit *> lineEdits)
     query = new QSqlQuery();
 }
 
-QString ProductVariety::getFilter(const QString &key, const int &sender)
+QStringList ProductVariety::getFilter(const QString &key)
 {
     QStringList pids;
     QString pidQuery = "SELECT pid FROM params WHERE kid = (SELECT kid FROM keywords WHERE name = '" + key + "')";
-    for (int i = 1; i <= sender; ++i) {
+    for (int i = 1; i <= lineEdits.count(); ++i) {
         QString param = lineEdits[i-1]->text();
         if (!param.isEmpty()) {
             pidQuery.append(" AND param" + QString::number(i) +
                             " = '" + param + "'");
         }
     }
-//    qDebug() << pidQuery;
 
     query->exec(pidQuery);
     while (query->next()) {
         pids.append(query->value(0).toString());
     }
-
-    QString where = "pid IN (";
-    foreach (QString pid, pids) {
-        where.append("'" + pid + "', ");
-    }
-    where = where.left(where.size()-2);
-    where.append(")");
-    return where;
+    return pids;
 }
 
 QVector<QStringList> ProductVariety::getStoreRemainings(const QList<int> &pids, const QList<int> &mids)

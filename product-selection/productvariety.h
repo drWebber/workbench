@@ -9,7 +9,7 @@ class ProductVariety
 {
 public:
     ProductVariety(QList<QLineEdit *> lineEdits);
-    QString getFilter(const QString &key, const int &sender);
+    QStringList getFilter(const QString &key);
     QVector<QStringList> getStoreRemainings(const QList<int> &pids, const QList<int> &mids);
 private:
     QStringList getItemRemainings(const int &pid, const int &mid);

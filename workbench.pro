@@ -45,8 +45,8 @@ SOURCES += main.cpp\
     editors/multiplicyeditor.cpp \
     product-selection/productconstructor.cpp \
     product-selection/productvariety.cpp \
-    product-selection/productinfo.cpp \
-    import/nomenclatureimport.cpp
+    import/nomenclatureimport.cpp \
+    product-selection/productinfomodel.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -68,8 +68,8 @@ HEADERS  += mainwindow.h \
     editors/multiplicyeditor.h \
     product-selection/productconstructor.h \
     product-selection/productvariety.h \
-    product-selection/productinfo.h \
-    import/nomenclatureimport.h
+    import/nomenclatureimport.h \
+    product-selection/productinfomodel.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \

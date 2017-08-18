@@ -46,23 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     invoiceModel = new QStandardItemModel(this);
     ui->tbvInvoice->setModel(invoiceModel);
 
-    sqlmodel = new QSqlRelationalTableModel(this);
-    sqlmodel->setTable("products");
-    sqlmodel->setHeaderData(0, Qt::Horizontal, "Pid");
-    sqlmodel->setHeaderData(1, Qt::Horizontal, "Артикул");
-    sqlmodel->setHeaderData(2, Qt::Horizontal, "Наименование");
-    sqlmodel->setHeaderData(3, Qt::Horizontal, "Производитель");
-    sqlmodel->setJoinMode(QSqlRelationalTableModel::LeftJoin);
-    ui->tableView->setModel(sqlmodel);
-
-    itemModel = new QStandardItemModel(this);
-    itemModel->insertColumns(0, 3);
-    ui->tbvItemInfo->setModel(itemModel);
-    ui->tbvItemInfo->setEditTriggers(QAbstractItemView::NoEditTriggers);
-    itemModel->setHeaderData(0, Qt::Horizontal, "Витебск");
-    itemModel->setHeaderData(1, Qt::Horizontal, "Минск");
-    itemModel->setHeaderData(2, Qt::Horizontal, "Внешние");
-    pi = new ProductInfo(itemModel);
+    productModel = new ProductInfoModel(this);
+    ui->tableView->setModel(productModel);
 }
 
 MainWindow::~MainWindow()
@@ -132,19 +117,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::slotValLeEdtFinished()
 {
-    QString key = ui->leKey->text();
-    int sender = this->sender()->objectName().right(1).toInt();
+    qDebug() << pv->getFilter(ui->leKey->text());
 
-    sqlmodel->setFilter(pv->getFilter(key, sender));
-    sqlmodel->select();
+//    sqlmodel->setFilter(pv->getFilter(key, sender));
+//    sqlmodel->select();
 
-    QList<int> mids, pids;
-    for (int i = 0; i < sqlmodel->rowCount(); ++i) {
-        pids.append(sqlmodel->data(sqlmodel->index(i, col_pid)).toInt());
-        mids.append(sqlmodel->data(sqlmodel->index(i, col_mid)).toInt());
-    }
+//    QList<int> mids, pids;
+//    for (int i = 0; i < sqlmodel->rowCount(); ++i) {
+//        pids.append(sqlmodel->data(sqlmodel->index(i, col_pid)).toInt());
+//        mids.append(sqlmodel->data(sqlmodel->index(i, col_mid)).toInt());
+//    }
 
-    pi->setRemainingsData(pv->getStoreRemainings(pids, mids));
+//    pi->setRemainingsData(pv->getStoreRemainings(pids, mids));
 
 }
 
@@ -214,9 +198,9 @@ void MainWindow::on_tableView_doubleClicked(const QModelIndex &index)
 {
     Q_UNUSED(index);
     QList<QStandardItem *> items;
-    for (int i = 0; i < sqlmodel->columnCount(); ++i) {
-        QModelIndex tmp = sqlmodel->index(ui->tableView->currentIndex().row(), i);
-        items.append(new QStandardItem(sqlmodel->data(tmp).toString()));
+    for (int i = 0; i < productModel->columnCount(); ++i) {
+        QModelIndex tmp = productModel->index(ui->tableView->currentIndex().row(), i);
+        items.append(new QStandardItem(productModel->data(tmp).toString()));
     }
     invoiceModel->appendRow(items);
 }
