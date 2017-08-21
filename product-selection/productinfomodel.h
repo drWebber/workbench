@@ -3,18 +3,15 @@
 
 #include <qabstractitemmodel.h>
 #include <qsqlquery.h>
+#include "product-selection/product.h"
 
 class ProductInfoModel : public QAbstractTableModel
 {
 public:
     explicit ProductInfoModel(QObject *parent = 0);
 private:
-    enum Column{
-        PRODUCT_ID, ARTICLE, DESCRIPTION, VIT_STORE, MINSK_STORE,
-        OUTRE_STORE, PRICE, LAST
-    };
-    typedef QHash<Column, QVariant> Product;
-    typedef QList<Product> Products;
+    typedef QHash<Product::Column, QVariant> Item;
+    typedef QList<Item> Products;
     Products products;
 
     // QAbstractItemModel interface
@@ -24,6 +21,7 @@ public:
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const;
     QVariant headerData(int section, Qt::Orientation orientation, int role) const;
     bool selectProducts(const QStringList &pids);
+    void resetModel();
 };
 
 #endif // PRODUCTINFOMODEL_H

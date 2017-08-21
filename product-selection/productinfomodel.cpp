@@ -18,7 +18,7 @@ int ProductInfoModel::rowCount(const QModelIndex &parent) const
 int ProductInfoModel::columnCount(const QModelIndex &parent) const
 {
     Q_UNUSED(parent);
-    return LAST;
+    return Product::LAST;
 }
 
 QVariant ProductInfoModel::data(const QModelIndex &index, int role) const
@@ -27,7 +27,7 @@ QVariant ProductInfoModel::data(const QModelIndex &index, int role) const
                             role != Qt::EditRole)) {
         return QVariant();
     }
-    return products[index.row()][Column(index.column())];
+    return products[index.row()][Product::Column(index.column())];
 }
 
 QVariant ProductInfoModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -39,19 +39,19 @@ QVariant ProductInfoModel::headerData(int section, Qt::Orientation orientation, 
         return ++section;
     }
     switch (section) {
-    case PRODUCT_ID:
+    case Product::PRODUCT_ID:
         return "Pid";
-    case ARTICLE:
+    case Product::ARTICLE:
         return "Артикул";
-    case DESCRIPTION:
+    case Product::DESCRIPTION:
         return "Наименование";
-    case VIT_STORE:
+    case Product::VIT_STORE:
         return "Витебск";
-    case MINSK_STORE:
+    case Product::MINSK_STORE:
         return "Минск";
-    case OUTRE_STORE:
+    case Product::OUTER_STORE:
         return "Прочие";
-    case PRICE:
+    case Product::PRICE:
         return "База";
     }
     return QVariant();
@@ -59,31 +59,24 @@ QVariant ProductInfoModel::headerData(int section, Qt::Orientation orientation, 
 
 bool ProductInfoModel::selectProducts(const QStringList &pids)
 {
-    СОЗДАТЬ ОТДЕЛЬНЫЙ МЕТОД ПОДГОТОВКИ ПРЕДИКАТА IN
-    QString str = "SELECT `pid`, `art`, `description`"
-                  "FROM `products`";
-    if (pids.count() > 0) {
-        str.append(" WHERE pids IN(");
-    }
-    foreach (QString pid, pids) {
-        str.append(pid + ", ");
-    }
-    QSqlQuery query(str);
-    if (!query.exec()) {
-        qDebug() << "Ошибка query.exec() ProductInfoModel::setQuery()";
-        qDebug() << query.lastError();
-        qDebug() << query.lastQuery();
-        return false;
-    }
-    while (query.next()) {
+    resetModel();
+
+    if (pids.isEmpty()) return false;
+
+    //для листа продуктов цикл обхода построчно вместо while ниже
+    Product prod = Product(pids);
+    foreach (Item product, prod.getProducts()) {
         int row = products.count();
-        Product prod;
-        prod.insert(PRODUCT_ID, query.value("pid"));
-        prod.insert(ARTICLE, query.value("art"));
-        prod.insert(DESCRIPTION, query.value("description"));
         beginInsertRows(QModelIndex(), row, row);
-        products.append(prod);
+        products.append(product);
         endInsertRows();
     }
     return true;
+}
+
+void ProductInfoModel::resetModel()
+{
+    beginResetModel();
+    products.clear();
+    endResetModel();
 }

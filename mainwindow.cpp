@@ -118,7 +118,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::slotValLeEdtFinished()
 {
     qDebug() << pv->getFilter(ui->leKey->text());
-
+    productModel->selectProducts(pv->getFilter(ui->leKey->text()));
 //    sqlmodel->setFilter(pv->getFilter(key, sender));
 //    sqlmodel->select();
 
