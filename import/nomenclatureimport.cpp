@@ -4,6 +4,7 @@
 #include <qsqlquery.h>
 #include <qtextstream.h>
 #include <qsqlerror.h>
+#include <qmessagebox.h>
 
 #include <qdebug.h>
 
@@ -92,6 +93,9 @@ void NomenclatureImport::run()
         int counter(0);
         while(!stream.atEnd()){
             QString line = stream.readLine();
+            if (line.isEmpty()) {
+                continue;
+            }
             QStringList item = line.split(";");
             if (item.count() > maxCol) {
                 QString article = item[articleCol];
@@ -104,6 +108,8 @@ void NomenclatureImport::run()
         }
         progressBar->setValue(rowCount);
         stream.flush();
+    } else {
+       QMessageBox::warning(0, "Ошибка", "Ошибка открытия файла" + csvFilePath + ".");
     }
     statement.exec("COMMIT");
     csvFile.close();

@@ -15,6 +15,8 @@ PriceImport::PriceImport()
 
 void PriceImport::dataInsert(int mid, QString csvFilePath, int rowCount)
 {
+    Q_UNUSED(rowCount);
+    Q_UNUSED(mid);
     //заливка цен
     /*
     QSqlQuery statement;

@@ -93,7 +93,7 @@ void MainWindow::slotMManEditTriggered()
 void MainWindow::slotMNomEditTriggered()
 {
     nomenclature = new Nomenclature();
-    nomenclature->setParent(this, Qt::Window);
+//    nomenclature->setParent(this, Qt::Window);
     nomenclature->show();
 }
 
