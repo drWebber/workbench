@@ -16,11 +16,22 @@ QStringList ProductVariety::getFilter(const QString &key)
     for (int i = 1; i <= lineEdits.count(); ++i) {
         QString param = lineEdits[i-1]->text();
         if (!param.isEmpty()) {
-            pidQuery.append(" AND param" + QString::number(i) +
-                            " = '" + param + "'");
+            QString condition;
+            if (param.contains(",")) {
+                QStringList params = param.split(", ");
+                QString range;
+                foreach (QString val, params) {
+                    range.append("'" + val + "', ");
+                }
+                range = range.left(range.length() - 2);
+                condition = " IN(" + range + ")";
+            } else {
+                condition = " = '" + param + "'";
+            }
+            pidQuery.append(" AND param" + QString::number(i) + condition);
         }
     }
-
+    qDebug() << pidQuery;
     query->exec(pidQuery);
     while (query->next()) {
         pids.append(query->value(0).toString());
