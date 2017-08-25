@@ -69,14 +69,20 @@ bool ProductConstructor::eventFilter(QObject *watched, QEvent *event)
     //отслеживаем Ctrl+Space для полей ввода ProductConstructor
     if (event->type() == QEvent::KeyPress){
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        QString sender = watched->objectName().right(1);
+        completer = new QCompleter(getCompletions(sender));
         if (keyEvent->key() == Qt::Key_Space) {
             if (keyEvent->modifiers().testFlag(Qt::ControlModifier)) {
-                QString sender = watched->objectName().right(1);
-                completer = new QCompleter(getCompletions(sender));
                 completer->setCompletionMode(QCompleter::UnfilteredPopupCompletion);
                 int id = sender.toInt()-1;
                 edits[id]->setCompleter(completer);
                 edits[id]->completer()->complete();
+                return true;
+            }
+        } else if(keyEvent->key() == Qt::Key_R) {
+            if(keyEvent->modifiers().testFlag(Qt::ControlModifier)){
+                multChoice = new MultipleChoice(getCompletions(sender));
+                multChoice->exec();
                 return true;
             }
         }

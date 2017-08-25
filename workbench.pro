@@ -47,7 +47,8 @@ SOURCES += main.cpp\
     product-selection/productvariety.cpp \
     import/nomenclatureimport.cpp \
     product-selection/productinfomodel.cpp \
-    product-selection/product.cpp
+    product-selection/product.cpp \
+    product-selection/multiplechoice.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -71,11 +72,13 @@ HEADERS  += mainwindow.h \
     product-selection/productvariety.h \
     import/nomenclatureimport.h \
     product-selection/productinfomodel.h \
-    product-selection/product.h
+    product-selection/product.h \
+    product-selection/multiplechoice.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \
-    importdata.ui
+    importdata.ui \
+    product-selection/multiplechoice.ui
 
 RESOURCES += \
     images/resource.qrc

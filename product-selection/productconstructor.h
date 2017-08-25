@@ -4,6 +4,7 @@
 #include <qlineedit.h>
 #include <qmainwindow.h>
 #include <qcompleter.h>
+#include "multiplechoice.h"
 
 class ProductConstructor : public QMainWindow
 {
@@ -16,7 +17,8 @@ private:
     QList<QLabel *> labels;
     QList<QLineEdit *> edits;
     QString keyword;
-    QCompleter *completer;
+    QCompleter* completer;
+    MultipleChoice* multChoice;
     // QObject interface
 public:
     bool eventFilter(QObject *watched, QEvent *event);

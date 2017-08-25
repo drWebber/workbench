@@ -31,7 +31,6 @@ QStringList ProductVariety::getFilter(const QString &key)
             pidQuery.append(" AND param" + QString::number(i) + condition);
         }
     }
-    qDebug() << pidQuery;
     query->exec(pidQuery);
     while (query->next()) {
         pids.append(query->value(0).toString());
