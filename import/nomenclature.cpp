@@ -11,6 +11,16 @@ Nomenclature::Nomenclature()
     ui->lbThirdCol->setText("Столбец ед. изм.");
 }
 
+void Nomenclature::onProgressChanged(int value)
+{
+    ui->progressBar->setValue(value);
+}
+
+void Nomenclature::onProgressFinished()
+{
+    ui->progressBar->setVisible(false);
+}
+
 void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
 {
     int startRow = ui->leStartRow->text().toInt()-1;
@@ -18,9 +28,13 @@ void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
     int nomenclatureCol = ui->leSecCol->text().toInt()-1;
     int unitCol = ui->leThirdCol->text().toInt()-1;
 
-    ni = new NomenclatureImport(csvFilePath, *ui->progressBar,
-                                mid, rowCount, startRow, articleCol,
+    ni = new NomenclatureImport(csvFilePath, mid, rowCount,
+                                startRow, articleCol,
                                 nomenclatureCol, unitCol);
+    connect(ni, SIGNAL(progressChanged(int)),
+            this, SLOT(onProgressChanged(int)));
+    connect(ni, SIGNAL(finished()),
+            this, SLOT(onProgressFinished()));
     ni->start();
 }
 
