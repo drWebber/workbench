@@ -8,13 +8,12 @@
 
 #include <qdebug.h>
 
-NomenclatureImport::NomenclatureImport(QString &csvFilePath, QProgressBar &progressBar,
+NomenclatureImport::NomenclatureImport(QString &csvFilePath,
                                        int &mid, int &rowCount, const int &startRow, const int &articleCol,
                                        const int &nomenclatureCol, const int &unitCol, QObject *parent) :
     QThread(parent)
 {
     this->csvFilePath = csvFilePath;
-    this->progressBar = &progressBar;
     this->mid = mid;
     this->rowCount = rowCount;
     this->startRow = startRow;
@@ -103,10 +102,10 @@ void NomenclatureImport::run()
                 if (article.isEmpty() || desc.isEmpty()) continue;
                 sqlProductInsert(article, desc, QString::number(mid), item[unitCol]);
                 counter++;
-                if(counter%10) progressBar->setValue(counter);
+                if(counter%10) progressChanged(counter);
             }
         }
-        progressBar->setValue(rowCount);
+        progressChanged(rowCount);
         stream.flush();
     } else {
        QMessageBox::warning(0, "Ошибка", "Ошибка открытия файла" + csvFilePath + ".");
@@ -114,5 +113,4 @@ void NomenclatureImport::run()
     statement.exec("COMMIT");
     csvFile.close();
     csvFile.remove();
-    progressBar->setVisible(false);
 }
