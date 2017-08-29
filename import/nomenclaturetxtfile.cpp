@@ -14,20 +14,22 @@ NomenclatureTxtFile::NomenclatureTxtFile(const QFile &source)
     multOut = new QTextStream(&multiplicyFile);
 }
 
-void NomenclatureTxtFile::appendNomenclatureRow(const QString &row)
+void NomenclatureTxtFile::appendNomenclature(const QString &row)
 {
     *nomOut << row << endl;
 }
 
-void NomenclatureTxtFile::appendMultiplicyRow(const QString &row)
+void NomenclatureTxtFile::appendMultiplicy(const QString &row)
 {
     *multOut << row << endl;;
 }
 
-void NomenclatureTxtFile::closeFiles()
+void NomenclatureTxtFile::remove()
 {
-//    nomOut->flush();
-//    multOut->flush();
+    nomOut->flush();
+    multOut->flush();
     nomenclatureFile.close();
     multiplicyFile.close();
+    nomenclatureFile.remove();
+    multiplicyFile.remove();
 }

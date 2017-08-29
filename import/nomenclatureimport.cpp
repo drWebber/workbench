@@ -74,39 +74,43 @@ void NomenclatureImport::run()
     QFile csvFile(csvFilePath);
 
     NomenclatureTxtFile textFile(csvFile);
-    textFile.appendNomenclatureRow("nomnom");
-    textFile.appendNomenclatureRow("nomnom");
-    textFile.appendMultiplicyRow("mult");
-    textFile.appendMultiplicyRow("mult");
-    textFile.appendMultiplicyRow("mult");
-    textFile.appendMultiplicyRow("mult");
-    textFile.closeFiles();
 
-//    if(csvFile.open(QFile::ReadOnly | QFile::Text)) {
-//        QTextStream stream(&csvFile);
-//        for (int i(0); i < startRow; i++) stream.readLine(); //пропускаем нужное число строк
-//                                                                                     //начало задано в бд остатков
-//        int counter(0);
-//        while(!stream.atEnd()){
-//            QString line = stream.readLine();
-//            if (line.isEmpty()) {
-//                continue;
-//            }
-//            QStringList item = line.split(";");
-//            if (item.count() > maxCol) {
-//                QString article = item[articleCol];
-//                QString desc = item[nomenclatureCol];
-//                if (article.isEmpty() || desc.isEmpty()) continue;
-//                //sqlProductInsert(article, desc, QString::number(mid), item[unitCol]);
-//                counter++;
-//                if(counter%10) progressChanged(counter);
-//            }
-//        }
-//        progressChanged(rowCount);
-//        stream.flush();
-//    } else {
-//       QMessageBox::warning(0, "Ошибка", "Ошибка открытия файла" + csvFilePath + ".");
-//    }
+    if(csvFile.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream stream(&csvFile);
+        for (int i(0); i < startRow; i++) stream.readLine(); //пропускаем нужное число строк
+                                                             //начало задано в бд остатков
+        int counter(0);
+        while(!stream.atEnd()){
+            QString line = stream.readLine();
+            if (line.isEmpty()) {
+                continue;
+            }
+            QStringList item = line.split(";");
+            if (item.count() > maxCol) {
+                QString article = item[articleCol];
+                QString desc = item[nomenclatureCol];
+                if (article.isEmpty() || desc.isEmpty()) continue;
+
+                textFile.appendNomenclature('\N' + '\t' + article + '\t' +
+                                            desc + '\t' + QString::number(mid));
+
+                textFile.appendNomenclature('\N' + '\t' + article + '\t' +
+                                            desc + '\t' + QString::number(mid));
+
+
+                //        sqlMultiplicyInsert(article, mid, unit);
+
+                //sqlProductInsert(article, desc, QString::number(mid), item[unitCol]);
+                counter++;
+                if(counter%10) progressChanged(counter);
+            }
+        }
+        progressChanged(rowCount);
+        stream.flush();
+    } else {
+       QMessageBox::warning(0, "Ошибка", "Ошибка открытия файла" + csvFilePath + ".");
+    }
+    textFile.remove();
     csvFile.close();
     csvFile.remove();
 }

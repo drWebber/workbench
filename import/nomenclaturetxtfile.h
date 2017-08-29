@@ -9,9 +9,9 @@ class NomenclatureTxtFile
 {
 public:
     NomenclatureTxtFile(const QFile &source);
-    void appendNomenclatureRow(const QString &row);
-    void appendMultiplicyRow(const QString &row);
-    void closeFiles();
+    void appendNomenclature(const QString &row);
+    void appendMultiplicy(const QString &row);
+    void remove();
 private:
     QFile nomenclatureFile;
     QFile multiplicyFile;
