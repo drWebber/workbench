@@ -5,7 +5,7 @@
 #include <qtextstream.h>
 #include <qsqlerror.h>
 #include <qmessagebox.h>
-
+#include "nomenclaturetxtfile.h"
 #include <qdebug.h>
 
 NomenclatureImport::NomenclatureImport(QString &csvFilePath,
@@ -42,75 +42,71 @@ void NomenclatureImport::printSqlError(QSqlQuery &query)
     qDebug() << query.lastError();
 }
 
-
-
-void NomenclatureImport::sqlMultiplicyInsert(const QString &article, const QString &mid,
-                                             const QString &unit)
+void NomenclatureImport::sqlProductInsert()
 {
-    QSqlQuery multQuery;
-    multQuery.prepare("INSERT INTO multiplicy(pid, main_unit) VALUES((SELECT pid FROM products WHERE art = :art AND mid = :mid), :unit)");
-    multQuery.bindValue(":art", article);
-    multQuery.bindValue(":mid", mid);
-    multQuery.bindValue(":unit", unit);
-    if(!multQuery.exec()){
-        qDebug() << "muilt insertion error";
-        qDebug() << article << mid << unit;
-        printSqlError(multQuery);
-    }
-}
+    QSqlQuery statement;
+    statement.exec("START TRANSACTION");
 
-void NomenclatureImport::sqlProductInsert(const QString &article, const QString &description,
-                                    const QString &mid, const QString unit)
-{
-    QSqlQuery insQuery;
-    insQuery.prepare("INSERT INTO products(art, description, mid) VALUES(:art, :desc, :mid)");
-    insQuery.bindValue(":art", article);
-    insQuery.bindValue(":desc", description);
-    insQuery.bindValue(":mid", mid);
-    if (!insQuery.exec()) {
-        qDebug() << "Ошибка внесения номенклатуры";
-        qDebug() << article << description << unit;
-        printSqlError(insQuery);
-    } else {
-        sqlMultiplicyInsert(article, mid, unit);
-    }
+    //импорт номенклатуры из файла
+    //импорт кратности упаковки из файла
+
+    statement.exec("COMMIT");
+//    QSqlQuery insQuery;
+//    insQuery.prepare("INSERT INTO products(art, description, mid) VALUES(:art, :desc, :mid)");
+//    insQuery.bindValue(":art", article);
+//    insQuery.bindValue(":desc", description);
+//    insQuery.bindValue(":mid", mid);
+//    if (!insQuery.exec()) {
+//        qDebug() << "Ошибка внесения номенклатуры";
+//        qDebug() << article << description << unit;
+//        printSqlError(insQuery);
+//    } else {
+//        sqlMultiplicyInsert(article, mid, unit);
+//    }
 }
 
 void NomenclatureImport::run()
 {
-    QSqlQuery statement;
-    statement.exec("START TRANSACTION");
 
     int maxCol = max(articleCol, nomenclatureCol, unitCol);
 
     //читаем csv
     QFile csvFile(csvFilePath);
-    if(csvFile.open(QFile::ReadOnly | QFile::Text)) {
-        QTextStream stream(&csvFile);
-        for (int i(0); i < startRow; i++) stream.readLine(); //пропускаем нужное число строк
-                                                                                     //начало задано в бд остатков
-        int counter(0);
-        while(!stream.atEnd()){
-            QString line = stream.readLine();
-            if (line.isEmpty()) {
-                continue;
-            }
-            QStringList item = line.split(";");
-            if (item.count() > maxCol) {
-                QString article = item[articleCol];
-                QString desc = item[nomenclatureCol];
-                if (article.isEmpty() || desc.isEmpty()) continue;
-                sqlProductInsert(article, desc, QString::number(mid), item[unitCol]);
-                counter++;
-                if(counter%10) progressChanged(counter);
-            }
-        }
-        progressChanged(rowCount);
-        stream.flush();
-    } else {
-       QMessageBox::warning(0, "Ошибка", "Ошибка открытия файла" + csvFilePath + ".");
-    }
-    statement.exec("COMMIT");
+
+    NomenclatureTxtFile textFile(csvFile);
+    textFile.appendNomenclatureRow("nomnom");
+    textFile.appendNomenclatureRow("nomnom");
+    textFile.appendMultiplicyRow("mult");
+    textFile.appendMultiplicyRow("mult");
+    textFile.appendMultiplicyRow("mult");
+    textFile.appendMultiplicyRow("mult");
+    textFile.closeFiles();
+
+//    if(csvFile.open(QFile::ReadOnly | QFile::Text)) {
+//        QTextStream stream(&csvFile);
+//        for (int i(0); i < startRow; i++) stream.readLine(); //пропускаем нужное число строк
+//                                                                                     //начало задано в бд остатков
+//        int counter(0);
+//        while(!stream.atEnd()){
+//            QString line = stream.readLine();
+//            if (line.isEmpty()) {
+//                continue;
+//            }
+//            QStringList item = line.split(";");
+//            if (item.count() > maxCol) {
+//                QString article = item[articleCol];
+//                QString desc = item[nomenclatureCol];
+//                if (article.isEmpty() || desc.isEmpty()) continue;
+//                //sqlProductInsert(article, desc, QString::number(mid), item[unitCol]);
+//                counter++;
+//                if(counter%10) progressChanged(counter);
+//            }
+//        }
+//        progressChanged(rowCount);
+//        stream.flush();
+//    } else {
+//       QMessageBox::warning(0, "Ошибка", "Ошибка открытия файла" + csvFilePath + ".");
+//    }
     csvFile.close();
     csvFile.remove();
 }

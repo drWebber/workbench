@@ -18,10 +18,8 @@ private:
     int mid, rowCount, startRow, articleCol, nomenclatureCol,  unitCol;
     int max(int i, int j, int k);
     void printSqlError(QSqlQuery &query);
-    void sqlMultiplicyInsert(const QString &article, const QString &mid,
-                             const QString &unit);
-    void sqlProductInsert(const QString &article, const QString &description,
-                          const QString &mid, const QString unit);
+    void sqlProductInsert();
+    void readCsv();
 
     // QThread interface
 protected:

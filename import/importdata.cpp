@@ -41,6 +41,7 @@ ImportData::~ImportData()
 
 void ImportData::slotShowChooseFileDlg()
 {
+    QDir::setCurrent("d:\\Каталоги\\Номенклатура 11.08.17\\");
     filePath = QFileDialog::getOpenFileName(this, tr("Выбор файла импорта"), NULL, "*.xls | *.xlsx");
     if (!filePath.isEmpty()) {
         ui->lbFilePath->setText(filePath);
