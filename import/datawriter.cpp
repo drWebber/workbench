@@ -3,7 +3,7 @@
 
 #include <qdebug.h>
 
-NomenclatureTxtFile::NomenclatureTxtFile(const QFile &source)
+DataWriter::DataWriter(const QFile &source)
 {
     nomenclatureFile.setFileName(source.fileName() + ".txt");
     nomenclatureFile.open(QIODevice::ReadWrite | QIODevice::Text);
@@ -14,20 +14,18 @@ NomenclatureTxtFile::NomenclatureTxtFile(const QFile &source)
     multOut = new QTextStream(&multiplicyFile);
 }
 
-void NomenclatureTxtFile::appendNomenclatureRow(const QString &row)
+void DataWriter::appendNomenclatureRow(const QString &row)
 {
     *nomOut << row << endl;
 }
 
-void NomenclatureTxtFile::appendMultiplicyRow(const QString &row)
+void DataWriter::appendMultiplicyRow(const QString &row)
 {
     *multOut << row << endl;;
 }
 
-void NomenclatureTxtFile::closeFiles()
+void DataWriter::closeFiles()
 {
-//    nomOut->flush();
-//    multOut->flush();
     nomenclatureFile.close();
     multiplicyFile.close();
 }

@@ -48,7 +48,7 @@ SOURCES += main.cpp\
     import/nomenclatureimport.cpp \
     product-selection/productinfomodel.cpp \
     product-selection/product.cpp \
-    import/nomenclaturetxtfile.cpp
+    import/datawriter.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \

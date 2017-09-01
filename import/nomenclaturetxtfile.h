@@ -5,10 +5,10 @@
 #include <qtextstream.h>
 
 
-class NomenclatureTxtFile
+class DataWriter
 {
 public:
-    NomenclatureTxtFile(const QFile &source);
+    DataWriter(const QFile &source);
     void appendNomenclatureRow(const QString &row);
     void appendMultiplicyRow(const QString &row);
     void closeFiles();

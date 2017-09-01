@@ -73,12 +73,37 @@ void NomenclatureImport::run()
     //читаем csv
     QFile csvFile(csvFilePath);
 
-    NomenclatureTxtFile textFile(csvFile);
+    DataWriter textFile(csvFile);
+
+    if (csvFile.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream stream(&csvFile);
+        for (int i(0); i < startRow; i++) stream.readLine(); //пропускаем нужное число строк
+                                                             //начало задано в бд остатков
+        int counter(0);
+        while(!stream.atEnd()){
+            QString line = stream.readLine();
+            if (line.isEmpty()) {
+                continue;
+            }
+            QStringList item = line.split(";");
+            if (item.count() > maxCol) {
+                QString article = item[articleCol];
+                QString desc = item[nomenclatureCol];
+                if (article.isEmpty() || desc.isEmpty()) continue;
+                textFile.appendNomenclatureRow(article + "\t" + desc + "\t" + QString::number(mid));
+                //sqlProductInsert(article, desc, QString::number(mid), item[unitCol]);
+                counter++;
+                if(counter%10) progressChanged(counter);
+            }
+        }
+        progressChanged(rowCount);
+        stream.flush();
+    } else {
+        QMessageBox::warning(0, "Ошибка",
+                             "Ошибка открытия файла" + csvFilePath + ".");
+    }
+
     textFile.appendNomenclatureRow("nomnom");
-    textFile.appendNomenclatureRow("nomnom");
-    textFile.appendMultiplicyRow("mult");
-    textFile.appendMultiplicyRow("mult");
-    textFile.appendMultiplicyRow("mult");
     textFile.appendMultiplicyRow("mult");
     textFile.closeFiles();
 
