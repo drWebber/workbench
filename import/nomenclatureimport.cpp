@@ -73,9 +73,15 @@ void NomenclatureImport::run()
     //читаем csv
     QFile csvFile(csvFilePath);
 
+<<<<<<< HEAD
     DataWriter textFile(csvFile);
 
     if (csvFile.open(QFile::ReadOnly | QFile::Text)) {
+=======
+    NomenclatureTxtFile textFile(csvFile);
+
+    if(csvFile.open(QFile::ReadOnly | QFile::Text)) {
+>>>>>>> c57ed82a0386caf7a5dbfa0cd2dfde546924ce66
         QTextStream stream(&csvFile);
         for (int i(0); i < startRow; i++) stream.readLine(); //пропускаем нужное число строк
                                                              //начало задано в бд остатков
@@ -90,7 +96,20 @@ void NomenclatureImport::run()
                 QString article = item[articleCol];
                 QString desc = item[nomenclatureCol];
                 if (article.isEmpty() || desc.isEmpty()) continue;
+<<<<<<< HEAD
                 textFile.appendNomenclatureRow(article + "\t" + desc + "\t" + QString::number(mid));
+=======
+
+                textFile.appendNomenclature('\N' + '\t' + article + '\t' +
+                                            desc + '\t' + QString::number(mid));
+
+                textFile.appendNomenclature('\N' + '\t' + article + '\t' +
+                                            desc + '\t' + QString::number(mid));
+
+
+                //        sqlMultiplicyInsert(article, mid, unit);
+
+>>>>>>> c57ed82a0386caf7a5dbfa0cd2dfde546924ce66
                 //sqlProductInsert(article, desc, QString::number(mid), item[unitCol]);
                 counter++;
                 if(counter%10) progressChanged(counter);
@@ -99,6 +118,7 @@ void NomenclatureImport::run()
         progressChanged(rowCount);
         stream.flush();
     } else {
+<<<<<<< HEAD
         QMessageBox::warning(0, "Ошибка",
                              "Ошибка открытия файла" + csvFilePath + ".");
     }
@@ -132,6 +152,11 @@ void NomenclatureImport::run()
 //    } else {
 //       QMessageBox::warning(0, "Ошибка", "Ошибка открытия файла" + csvFilePath + ".");
 //    }
+=======
+       QMessageBox::warning(0, "Ошибка", "Ошибка открытия файла" + csvFilePath + ".");
+    }
+    textFile.remove();
+>>>>>>> c57ed82a0386caf7a5dbfa0cd2dfde546924ce66
     csvFile.close();
     csvFile.remove();
 }
