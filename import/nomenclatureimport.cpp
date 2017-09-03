@@ -6,6 +6,9 @@
 #include <qsqlerror.h>
 #include <qmessagebox.h>
 #include <qdebug.h>
+#include "csvreader.h"
+#include "excel/xlsreader.h"
+
 
 NomenclatureImport::NomenclatureImport(ImportInfo &import, QObject *parent) :
     QThread(parent)
@@ -19,4 +22,12 @@ void NomenclatureImport::run()
     xr.openActiveWorkBook();
     QFile *csvFile = xr.saveAsCsv();
     xr.close();
+    CsvReader cr(csvFile, import.getStartRow());
+    if (cr.openCsv()) {
+        while (!cr.atEnd()) {
+            qDebug() << cr.readLine();
+        }
+    }
+    cr.close();
+    delete csvFile;
 }

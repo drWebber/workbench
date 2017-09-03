@@ -49,7 +49,8 @@ SOURCES += main.cpp\
     product-selection/productinfomodel.cpp \
     product-selection/product.cpp \
     excel/xlsreader.cpp \
-    import/importinfo.cpp
+    import/importinfo.cpp \
+    import/csvreader.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -75,7 +76,8 @@ HEADERS  += mainwindow.h \
     product-selection/productinfomodel.h \
     product-selection/product.h \
     excel/xlsreader.h \
-    import/importinfo.h
+    import/importinfo.h \
+    import/csvreader.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \
