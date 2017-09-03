@@ -1,5 +1,5 @@
 #include "nomenclatureimport.h"
-#include "excel/xlsreader.h"
+
 #include <qfile.h>
 #include <qsqlquery.h>
 #include <qtextstream.h>
