@@ -1,5 +1,6 @@
 #include "import/nomenclature.h"
 #include "ui_importdata.h"
+#include "importinfo.h"
 #include <qdebug.h>
 #include <qsqltablemodel.h>
 
@@ -11,30 +12,16 @@ Nomenclature::Nomenclature()
     ui->lbThirdCol->setText("Столбец ед. изм.");
 }
 
-void Nomenclature::onProgressChanged(int value)
+void Nomenclature::dataInsert()
 {
-    ui->progressBar->setValue(value);
-}
+    ImportInfo import;
+    import.setFilePath(ui->lbFilePath->text());
+    import.setStartRow(ui->leStartRow->text().toInt()-1);
+    import.setArticleCol(ui->leFirstCol->text().toInt()-1);
+    import.setDescCol(ui->leSecCol->text().toInt()-1);
+    import.setUnitsCol(ui->leThirdCol->text().toInt()-1);
 
-void Nomenclature::onProgressFinished()
-{
-    ui->progressBar->setVisible(false);
-}
-
-void Nomenclature::dataInsert(int mid, QString csvFilePath, int rowCount)
-{
-    int startRow = ui->leStartRow->text().toInt()-1;
-    int articleCol = ui->leFirstCol->text().toInt()-1;
-    int nomenclatureCol = ui->leSecCol->text().toInt()-1;
-    int unitCol = ui->leThirdCol->text().toInt()-1;
-
-    ni = new NomenclatureImport(csvFilePath, mid, rowCount,
-                                startRow, articleCol,
-                                nomenclatureCol, unitCol);
-    connect(ni, SIGNAL(progressChanged(int)),
-            this, SLOT(onProgressChanged(int)));
-    connect(ni, SIGNAL(finished()),
-            this, SLOT(onProgressFinished()));
+    ni = new NomenclatureImport(import);
     ni->start();
 }
 

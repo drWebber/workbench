@@ -4,28 +4,17 @@
 #include <qsqlquery.h>
 #include <qstring.h>
 #include <qthread.h>
+#include "importinfo.h"
 
 class NomenclatureImport : public QThread
 {
     Q_OBJECT
 public:
-    NomenclatureImport(QString &csvFilePath, int &mid, int &rowCount,
-                       const int &startRow, const int &articleCol,
-                       const int &nomenclatureCol, const int &unitCol,
-                       QObject *parent = 0);
-private:
-    QString csvFilePath;
-    int mid, rowCount, startRow, articleCol, nomenclatureCol,  unitCol;
-    int max(int i, int j, int k);
-    void printSqlError(QSqlQuery &query);
-    void sqlProductInsert();
-    void readCsv();
-
-    // QThread interface
+    NomenclatureImport(ImportInfo &import, QObject *parent = 0);
 protected:
-    void run() override;
-signals:
-    int progressChanged(int);
+    void run();
+private:
+    ImportInfo import;
 };
 
 #endif // NOMENCLATUREIMPORT_H

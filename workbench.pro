@@ -48,7 +48,8 @@ SOURCES += main.cpp\
     import/nomenclatureimport.cpp \
     product-selection/productinfomodel.cpp \
     product-selection/product.cpp \
-    import/nomenclaturetxtfile.cpp
+    excel/xlsreader.cpp \
+    import/importinfo.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -73,7 +74,8 @@ HEADERS  += mainwindow.h \
     import/nomenclatureimport.h \
     product-selection/productinfomodel.h \
     product-selection/product.h \
-    import/nomenclaturetxtfile.h
+    excel/xlsreader.h \
+    import/importinfo.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \

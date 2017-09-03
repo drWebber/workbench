@@ -99,9 +99,9 @@ void MainWindow::slotMNomEditTriggered()
 
 void MainWindow::slotMPriceEditTriggered()
 {
-    priceImport = new PriceImport();
-    priceImport->setParent(this, Qt::Window);
-    priceImport->show();
+//    priceImport = new PriceImport();
+//    priceImport->setParent(this, Qt::Window);
+//    priceImport->show();
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

@@ -18,8 +18,7 @@ public:
     explicit ImportData(QWidget *parent = 0);
     ~ImportData();
 private:
-    int xlsToCsv(QString xlsFilePath, QString csvFilePath);
-    virtual void dataInsert(int mid, QString csvFilePath, int rowCount) = 0;
+    virtual void dataInsert() = 0;
 public slots:
     void slotShowChooseFileDlg();
     void slotSaveCurrSettings();

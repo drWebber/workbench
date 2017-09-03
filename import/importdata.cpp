@@ -78,46 +78,9 @@ void ImportData::slotImportData()
     QString xlsFilePath = filePath.replace("/", "\\");
     QString csvFilePath = xlsFilePath.replace(QRegularExpression(".xlsx?"), ".csv").replace("/", "\\");
 
-    int rowCount = this->xlsToCsv(xlsFilePath, csvFilePath);
-
     ui->progressBar->setVisible(true);
-    ui->progressBar->setMaximum(rowCount);
 
     QString name =  ui->cbManufacturer->currentText();
 
-    int mid = query.getSingleVal("SELECT mid FROM manufacturers WHERE name = '" + name + "'").toInt();
-
-    this->dataInsert(mid, csvFilePath, rowCount);
-}
-
-int ImportData::xlsToCsv(QString xlsFilePath, QString csvFilePath)
-{
-    int rowCount = -1;
-    if(!xlsFilePath.isEmpty()){
-        QAxWidget excel("Excel.Application");
-
-        QAxObject *workbooks = excel.querySubObject("WorkBooks");
-        workbooks->dynamicCall("Open (const QString&)", ui->lbFilePath->text());
-
-        QAxObject *workbook = excel.querySubObject("ActiveWorkBook");
-
-        QAxObject *sheets = workbook->querySubObject("Worksheets");
-        QAxObject *sheet = sheets->querySubObject("Item(int)", 1); //1 - "Лист 1"
-
-        QAxObject *range = sheet->querySubObject("UsedRange");
-
-        QAxObject *rows = range->querySubObject("Rows");
-        rowCount = rows->dynamicCall("Count()").toInt();
-
-        workbook->dynamicCall("SaveAs (const QString&, const int&)", csvFilePath, xlCSV);
-
-        excel.setProperty("DisplayAlerts", false);
-        workbook->dynamicCall("Close (Boolean)", true);
-
-        delete workbook;
-        delete workbooks;
-
-        excel.dynamicCall("Quit (void)");
-    }
-    return rowCount;
+    this->dataInsert();
 }
