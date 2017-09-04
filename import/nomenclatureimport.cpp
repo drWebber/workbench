@@ -1,14 +1,13 @@
 #include "nomenclatureimport.h"
 
-#include <qfile.h>
 #include <qsqlquery.h>
 #include <qtextstream.h>
 #include <qsqlerror.h>
 #include <qmessagebox.h>
 #include <qdebug.h>
 #include "csvreader.h"
-#include "excel/xlsreader.h"
-
+#include "dataparcer.h"
+#include "datawriter.h"
 
 NomenclatureImport::NomenclatureImport(ImportInfo &import, QObject *parent) :
     QThread(parent)
@@ -16,18 +15,32 @@ NomenclatureImport::NomenclatureImport(ImportInfo &import, QObject *parent) :
     this->import = import;
 }
 
+NomenclatureImport::~NomenclatureImport()
+{
+    xr->close();
+    delete csvFile;
+    delete xr;
+}
+
 void NomenclatureImport::run()
 {
-    XlsReader xr(new QFile(import.getFilePath()));
-    xr.openActiveWorkBook();
-    QFile *csvFile = xr.saveAsCsv();
-    xr.close();
+    xr = new XlsReader(new QFile(import.getFilePath()));
+    xr->openActiveWorkBook();
+    csvFile = xr->saveAsCsv();
     CsvReader cr(csvFile, import.getStartRow());
+    QList<int> productInfo = QList<int>() << import.getArticleCol()
+                                          << import.getDescCol();
+    DataParcer prodParcer(productInfo);
+    DataWriter prodWriter(csvFile->fileName() + ".txt");
+    QString mid = import.getMid();
     if (cr.openCsv()) {
         while (!cr.atEnd()) {
-            qDebug() << cr.readLine();
+            QString line = prodParcer.parceLine(cr.readLine());
+            if (!line.isEmpty()) {
+                prodWriter.append(line + '\t' + mid);
+            }
         }
     }
-    cr.close();
-    delete csvFile;
+    QSqlQuery("LOAD DATA INFILE '" + prodWriter.getFilePath()
+              + "' INTO TABLE `products`(`art`, `description`, `mid`)").exec();
 }

@@ -20,6 +20,7 @@ void Nomenclature::dataInsert()
     import.setArticleCol(ui->leFirstCol->text().toInt()-1);
     import.setDescCol(ui->leSecCol->text().toInt()-1);
     import.setUnitsCol(ui->leThirdCol->text().toInt()-1);
+    import.setManufacturer(ui->cbManufacturer->currentText());
 
     ni = new NomenclatureImport(import);
     ni->start();

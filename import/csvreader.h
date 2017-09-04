@@ -8,10 +8,10 @@ class CsvReader
 {
 public:
     CsvReader(QFile *csvFile, int startRow);
+    ~CsvReader();
     QString readLine();
     bool atEnd();
     bool openCsv();
-    void close();
 private:
     QFile *csvFile;
     QTextStream *stream;

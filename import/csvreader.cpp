@@ -6,6 +6,12 @@ CsvReader::CsvReader(QFile *csvFile, int startRow)
     this->startRow = startRow;
 }
 
+CsvReader::~CsvReader()
+{
+    csvFile->close();
+    csvFile->remove();
+}
+
 QString CsvReader::readLine()
 {
     QString line;
@@ -29,10 +35,4 @@ bool CsvReader::openCsv()
     } else {
         return false;
     }
-}
-
-void CsvReader::close()
-{
-    csvFile->close();
-    csvFile->remove();
 }

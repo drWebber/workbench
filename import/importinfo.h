@@ -9,7 +9,7 @@ class ImportInfo
 {
 public:
     ImportInfo();
-    int getMid();
+    QString getMid();
     void setManufacturer(QString const &manufacturer);
 
     int getStartRow() const;

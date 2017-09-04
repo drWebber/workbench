@@ -50,7 +50,9 @@ SOURCES += main.cpp\
     product-selection/product.cpp \
     excel/xlsreader.cpp \
     import/importinfo.cpp \
-    import/csvreader.cpp
+    import/csvreader.cpp \
+    import/dataparcer.cpp \
+    import/datawriter.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -77,7 +79,9 @@ HEADERS  += mainwindow.h \
     product-selection/product.h \
     excel/xlsreader.h \
     import/importinfo.h \
-    import/csvreader.h
+    import/csvreader.h \
+    import/dataparcer.h \
+    import/datawriter.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \

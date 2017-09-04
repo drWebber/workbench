@@ -7,7 +7,7 @@ ImportInfo::ImportInfo()
 
 }
 
-int ImportInfo::getMid()
+QString ImportInfo::getMid()
 {
     mid = -1;
     QSqlQuery query = QSqlQuery("SELECT mid FROM manufacturers WHERE name = '" + manufacturer + "'");
@@ -15,7 +15,7 @@ int ImportInfo::getMid()
     if (query.next()) {
         mid = query.value(0).toInt();
     }
-    return mid;
+    return QString::number(mid);
 }
 
 void ImportInfo::setManufacturer(const QString &manufacturer)
