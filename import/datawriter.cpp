@@ -27,5 +27,5 @@ void DataWriter::removeFile()
 
 QString DataWriter::getFilePath()
 {
-    return QFileInfo(file).absolutePath();
+    return QFileInfo(file).absoluteFilePath();
 }
