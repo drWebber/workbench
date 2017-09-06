@@ -26,7 +26,7 @@ void OuterTextTable::printTable()
 
 void OuterTextTable::replaceDisplayDataToIndex()
 {
-    QVector<QVector<QString>> tableCopy = table;
+    QVector<QVector<QString> > tableCopy = table;
     /* Если у таблицы установлены отношения, в векторе меняем значения ячеек с отображаемого
      * на значение соотв. индекса. Ходим построчно по каждой ячейке таблицы, проверяя, установлены
      * ли у нее отношения, если отношения есть - забираем из БД первичный ключ, меняем в таблице
@@ -44,7 +44,7 @@ void OuterTextTable::replaceDisplayDataToIndex()
     //ходим по листу, заменяя отображаемые значения соотв. ячеек таблицы на индексные
     //если индексов не обнаружено - собираем номера элементов в контейнер
     if (!relationCols.isEmpty()) {
-        QMap<int, QVector<int>> preInsert;
+        QMap<int, QVector<int> > preInsert;
         foreach (int col, relationCols) {
             QVector<int> tmpRows;
             for (int row = 0; row < table.size(); row++) {
@@ -65,7 +65,7 @@ void OuterTextTable::replaceDisplayDataToIndex()
         //о том что надо либо их удалить, либо внести в индексные таблицы
         if (!preInsert.isEmpty()) {
             QList<int> rowsToDelete;
-            QMapIterator<int, QVector<int>> it(preInsert);
+            QMapIterator<int, QVector<int> > it(preInsert);
             while(it.hasNext()){
                 it.next();
                 QVector<int> rows = it.value();

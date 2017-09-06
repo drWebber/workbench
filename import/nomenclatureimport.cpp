@@ -3,7 +3,6 @@
 #include <qsqlquery.h>
 #include <qtextstream.h>
 #include <qsqlerror.h>
-#include <qmessagebox.h>
 #include <qdebug.h>
 #include "csvreader.h"
 #include "dataparcer.h"
@@ -17,19 +16,19 @@ NomenclatureImport::NomenclatureImport(ImportInfo &import, QObject *parent) :
 
 NomenclatureImport::~NomenclatureImport()
 {
-    xr->close();
     delete csvFile;
-    delete xr;
 }
 
 void NomenclatureImport::run()
 {
-    xr = new XlsReader(new QFile(import.getFilePath()));
-    xr->openActiveWorkBook();
-    csvFile = xr->saveAsCsv();
+    XlsReader xr(new QFile(import.getFilePath()));
+    xr.openActiveWorkBook();
+    csvFile = xr.saveAsCsv();
+//    xr.close();
     CsvReader cr(csvFile, import.getStartRow());
     QList<int> productInfo = QList<int>() << import.getArticleCol()
-                                          << import.getDescCol();
+                                          << import.getDescCol()
+                                          << import.getUnitsCol();
     DataParcer prodParcer(productInfo);
     DataWriter prodWriter(csvFile->fileName() + ".txt");
     QString mid = import.getMid();
@@ -41,6 +40,10 @@ void NomenclatureImport::run()
             }
         }
     }
-    QSqlQuery("LOAD DATA INFILE '" + prodWriter.getFilePath()
-              + "' INTO TABLE `products`(`art`, `description`, `mid`)").exec();
+    QSqlQuery query;
+    if (!query.exec("LOAD DATA INFILE '" + prodWriter.getFilePath()
+                   + "' INTO TABLE `products`(`art`, `description`, `mid`, `main_unit`)")) {
+        qDebug() << query.lastError().text();
+        emit importError(query.lastError().text());
+    }
 }

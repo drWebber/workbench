@@ -22,8 +22,8 @@ MainWindow::MainWindow(QWidget *parent) :
     sc.connect();
 
     QSqlQuery query;
-    query.exec("SET NAMES 'cp1251'");
-    query.exec("SET character_set_database=cp1251");
+//    query.exec("SET NAMES 'cp1251'");
+//    query.exec("SET character_set_database=cp1251");
 
     sq = new SqlQuery();
 
