@@ -19,7 +19,8 @@ protected:
 private:
     ImportInfo import;
     QFile *csvFile;
-    XlsReader *xr;
+signals:
+    QString importError(QString msg);
 };
 
 #endif // NOMENCLATUREIMPORT_H

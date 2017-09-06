@@ -13,7 +13,6 @@ public:
     ~DataWriter();
     QString getFilePath();
     void append(QString line);
-    void removeFile();
 private:
     QFile file;
     QTextStream *stream;

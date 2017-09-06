@@ -3,6 +3,7 @@
 #include "importinfo.h"
 #include <qdebug.h>
 #include <qsqltablemodel.h>
+#include <qmessagebox.h>
 
 Nomenclature::Nomenclature()
 {
@@ -23,7 +24,13 @@ void Nomenclature::dataInsert()
     import.setManufacturer(ui->cbManufacturer->currentText());
 
     ni = new NomenclatureImport(import);
+    connect(ni, SIGNAL(importError(QString)), this, SLOT(on_importError(QString)));
     ni->start();
+}
+
+void Nomenclature::on_importError(QString msg)
+{
+    QMessageBox::critical(NULL, "Ошибка импорта в бд", msg);
 }
 
 

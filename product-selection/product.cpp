@@ -8,7 +8,7 @@ Product::Product(const QStringList &pids)
     this->pids = pids;
 }
 
-QList<QHash<Product::Column, QVariant>> Product::getProducts()
+QList<QHash<Product::Column, QVariant> > Product::getProducts()
 {
     QList<Item> products;
 

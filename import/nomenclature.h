@@ -15,6 +15,8 @@ public:
 private:
     NomenclatureImport *ni;
     void dataInsert();
+private slots:
+    void on_importError(QString msg);
 };
 
 #endif // NOMENCLATURE_H

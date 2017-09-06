@@ -2,7 +2,10 @@
 #include <qdir.h>
 #include <dshow.h>
 #define xlCSV 6
+
 #include <qdebug.h>
+#include <qmessagebox.h>
+#include <qthread.h>
 
 XlsReader::XlsReader(QFile *xlsFile)
 {
@@ -30,12 +33,17 @@ void XlsReader::close()
     excel->dynamicCall("Quit (void)");
     delete workbook;
     delete workbooks;
+    delete excel;
 }
 
 QFile *XlsReader::saveAsCsv()
 {
     QDir::setCurrent(xlsFileInfo.absoluteDir().path());
     QFile *csvFile = new QFile(xlsFileInfo.fileName() + ".csv");
+    if (csvFile->exists()) {
+        csvFile->remove();
+    }
+
     workbook->dynamicCall("SaveAs (const QString&, const int&)",
                           QFileInfo(*csvFile).absoluteFilePath().replace("/", "\\"), xlCSV);
     return csvFile;
