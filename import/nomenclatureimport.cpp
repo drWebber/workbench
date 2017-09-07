@@ -24,7 +24,7 @@ void NomenclatureImport::run()
     XlsReader xr(new QFile(import.getFilePath()));
     xr.openActiveWorkBook();
     csvFile = xr.saveAsCsv();
-//    xr.close();
+    xr.close();
     CsvReader cr(csvFile, import.getStartRow());
     QList<int> productInfo = QList<int>() << import.getArticleCol()
                                           << import.getDescCol()
@@ -42,8 +42,7 @@ void NomenclatureImport::run()
     }
     QSqlQuery query;
     if (!query.exec("LOAD DATA INFILE '" + prodWriter.getFilePath()
-                   + "' INTO TABLE `products`(`art`, `description`, `mid`, `main_unit`)")) {
-        qDebug() << query.lastError().text();
+                   + "' INTO TABLE `products`(`art`, `description`, `main_unit`, `mid`)")) {
         emit importError(query.lastError().text());
     }
 }

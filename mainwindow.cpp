@@ -22,8 +22,17 @@ MainWindow::MainWindow(QWidget *parent) :
     sc.connect();
 
     QSqlQuery query;
-//    query.exec("SET NAMES 'cp1251'");
-//    query.exec("SET character_set_database=cp1251");
+
+    /*
+     *SET NAMES x эквивалентен следующей группе:
+     *character_set_client - кодировка в которой посылается запрос от клиента
+     *character_set_connection - кодировка используемая для конвертации пришедшего запроса (statement'а)
+     *character_set_results - кодировку, в которую сервер должен перевести результат перед его отправкой клиенту
+     */
+
+    query.exec("SET character_set_client=cp1251");
+    query.exec("SET character_set_connection=UTF8"); //можно и cp1251
+    query.exec("SET character_set_results=cp1251");
 
     sq = new SqlQuery();
 
@@ -34,8 +43,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     lineEdits << ui->leVal1 << ui->leVal2 << ui->leVal3 << ui->leVal4
               << ui->leVal5 << ui->leVal6 << ui->leVal7;
-
-
 
     pc = new ProductConstructor(labels, lineEdits);
     foreach (QLineEdit *edit, lineEdits) {
