@@ -1,5 +1,5 @@
 #include "dataparcer.h"
-
+#include <qregularexpression.h>
 #include <qdebug.h>
 
 DataParcer::DataParcer(const QList<int> &columns)
@@ -8,8 +8,11 @@ DataParcer::DataParcer(const QList<int> &columns)
     std::sort(this->columns.begin(), this->columns.end());
 }
 
-QString DataParcer::parceLine(const QString &line)
+QString DataParcer::parceLine(QString line)
 {
+    if (line.contains(QRegExp("\"(.+);(.+)\""))) {
+        qDebug() << line.replace(QRegularExpression("\"(.+);(.+)\""), "\\1blah\\2");
+    }
     QStringList items = line.split(";");
     QString values;
 

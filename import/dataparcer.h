@@ -9,7 +9,7 @@ class DataParcer
 {
 public:
     DataParcer(const QList<int> &columns);
-    QString parceLine(const QString &line);
+    QString parceLine(QString line);
 private:
     QList<int> columns;
 };
