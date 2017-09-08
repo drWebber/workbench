@@ -21,6 +21,7 @@ private:
     QFile *csvFile;
 signals:
     QString importError(QString msg);
+    QString progressChanged(QString msg);
 };
 
 #endif // NOMENCLATUREIMPORT_H

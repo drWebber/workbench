@@ -161,8 +161,6 @@ void SqlTableWin::setUp(QString tableName)
     ui->sqlTableView->setContextMenuPolicy(Qt::CustomContextMenu);
     connect(ui->sqlTableView,SIGNAL(customContextMenuRequested(QPoint)), this, SLOT(onMenuRequested(QPoint)));
 
-    QSqlQuery query;
-//    query.exec("SET NAMES utf8");
     model = new SqlRelationalTableModel(this);
     model->setTable(tableName);
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);

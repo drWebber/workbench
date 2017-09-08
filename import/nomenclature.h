@@ -17,6 +17,7 @@ private:
     void dataInsert();
 private slots:
     void on_importError(QString msg);
+    void on_progressChanged(QString msg);
 };
 
 #endif // NOMENCLATURE_H

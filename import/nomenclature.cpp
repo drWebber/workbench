@@ -24,13 +24,21 @@ void Nomenclature::dataInsert()
     import.setManufacturer(ui->cbManufacturer->currentText());
 
     ni = new NomenclatureImport(import);
-    connect(ni, SIGNAL(importError(QString)), this, SLOT(on_importError(QString)));
+    connect(ni, SIGNAL(importError(QString)),
+            this, SLOT(on_importError(QString)));
+    connect(ni, SIGNAL(progressChanged(QString)),
+            this, SLOT(on_progressChanged(QString)));
     ni->start();
 }
 
 void Nomenclature::on_importError(QString msg)
 {
     QMessageBox::critical(NULL, "Ошибка импорта в бд", msg);
+}
+
+void Nomenclature::on_progressChanged(QString msg)
+{
+    ui->lbProgress->setText(msg);
 }
 
 
