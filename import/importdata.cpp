@@ -2,10 +2,6 @@
 #include "import/importdata.h"
 #include <qdebug.h>
 #include <QShortcut>
-#include <qaxwidget.h>
-#include <qaxobject.h>
-#include <qsqlerror.h>
-#define xlCSV 6
 
 ImportData::ImportData(QWidget *parent) :
     QWidget(parent),
@@ -18,8 +14,6 @@ ImportData::ImportData(QWidget *parent) :
     ui->cbManufacturer->addItems(list);
     ui->cbManufacturer->setCurrentIndex(-1);
 
-    ui->progressBar->setVisible(false);
-
     QIcon icon;
     icon.addPixmap(QPixmap(":/images/terminal.png"));
     this->setWindowIcon(icon);
@@ -28,7 +22,7 @@ ImportData::ImportData(QWidget *parent) :
     ui->tbSaveCurrSettings->setIcon(icon);
 
     new QShortcut(QKeySequence(Qt::Key_Escape), this, SLOT(close()));
-    settings = new QSettings("import.conf", QSettings::IniFormat);
+    settings = new QSettings("drwebber's soft", "workbench");
 
     show();
 }
@@ -77,8 +71,6 @@ void ImportData::slotImportData()
 {
     QString xlsFilePath = filePath.replace("/", "\\");
     QString csvFilePath = xlsFilePath.replace(QRegularExpression(".xlsx?"), ".csv").replace("/", "\\");
-
-    ui->progressBar->setVisible(true);
 
     QString name =  ui->cbManufacturer->currentText();
 

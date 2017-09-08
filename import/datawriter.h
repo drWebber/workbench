@@ -9,8 +9,9 @@
 class DataWriter
 {
 public:
-    DataWriter(QString tmpFileName);
+    DataWriter();
     ~DataWriter();
+    bool open(const QString &tmpFileName);
     QString getFilePath();
     void append(QString line);
 private:

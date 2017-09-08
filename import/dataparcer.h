@@ -12,6 +12,7 @@ public:
     QString parceLine(QString line);
 private:
     QList<int> columns;
+    void replaceLine(QString &line, QString &pattern);
 };
 
 #endif // DATAPARCER_H

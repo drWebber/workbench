@@ -16,58 +16,6 @@
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
     <layout class="QGridLayout" name="gridLayout">
-     <item row="4" column="0">
-      <widget class="QLabel" name="lbFirstCol">
-       <property name="text">
-        <string>Столбец</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="lbFilePath">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QPushButton" name="pbChooseFile">
-       <property name="text">
-        <string>Выбрать файл</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
-      <widget class="QLabel" name="lbSecCol">
-       <property name="text">
-        <string>Столбец</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QLabel" name="lbStartRow">
-       <property name="text">
-        <string>Начальная строка</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="lbManufacturer">
-       <property name="text">
-        <string>Производитель</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QToolButton" name="tbSaveCurrSettings">
-       <property name="toolTip">
-        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сохранить настройки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="text">
-        <string>...</string>
-       </property>
-      </widget>
-     </item>
      <item row="4" column="1" colspan="2">
       <widget class="QLineEdit" name="leFirstCol">
        <property name="text">
@@ -82,8 +30,60 @@
        </property>
       </widget>
      </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="lbFirstCol">
+       <property name="text">
+        <string>Столбец</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QLabel" name="lbSecCol">
+       <property name="text">
+        <string>Столбец</string>
+       </property>
+      </widget>
+     </item>
+     <item row="8" column="0" colspan="3">
+      <widget class="QPushButton" name="pbImport">
+       <property name="text">
+        <string>Выполнить импорт</string>
+       </property>
+      </widget>
+     </item>
      <item row="2" column="1" colspan="2">
       <widget class="QComboBox" name="cbManufacturer"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="lbStartRow">
+       <property name="text">
+        <string>Начальная строка</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLabel" name="lbFilePath">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2">
+      <widget class="QToolButton" name="tbSaveCurrSettings">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Сохранить настройки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="text">
+        <string>...</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="QPushButton" name="pbChooseFile">
+       <property name="text">
+        <string>Выбрать файл</string>
+       </property>
+      </widget>
      </item>
      <item row="3" column="1" colspan="2">
       <widget class="QLineEdit" name="leStartRow">
@@ -92,10 +92,10 @@
        </property>
       </widget>
      </item>
-     <item row="8" column="0" colspan="3">
-      <widget class="QPushButton" name="pbImport">
+     <item row="2" column="0">
+      <widget class="QLabel" name="lbManufacturer">
        <property name="text">
-        <string>Выполнить импорт</string>
+        <string>Производитель</string>
        </property>
       </widget>
      </item>
@@ -113,17 +113,27 @@
        </property>
       </widget>
      </item>
-     <item row="9" column="0" colspan="2">
-      <widget class="QProgressBar" name="progressBar">
-       <property name="value">
-        <number>24</number>
-       </property>
-      </widget>
-     </item>
     </layout>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="lbProgress">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>pbChooseFile</tabstop>
+  <tabstop>tbSaveCurrSettings</tabstop>
+  <tabstop>cbManufacturer</tabstop>
+  <tabstop>leStartRow</tabstop>
+  <tabstop>leFirstCol</tabstop>
+  <tabstop>leSecCol</tabstop>
+  <tabstop>leThirdCol</tabstop>
+  <tabstop>pbImport</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -133,8 +143,8 @@
    <slot>slotShowChooseFileDlg()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>56</x>
-     <y>38</y>
+     <x>66</x>
+     <y>32</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>
@@ -149,8 +159,8 @@
    <slot>slotSaveCurrSettings()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>22</x>
-     <y>31</y>
+     <x>387</x>
+     <y>30</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>
@@ -165,8 +175,8 @@
    <slot>slotLoadSettings()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>249</x>
-     <y>109</y>
+     <x>389</x>
+     <y>58</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>
@@ -181,8 +191,8 @@
    <slot>slotImportData()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>199</x>
-     <y>156</y>
+     <x>209</x>
+     <y>191</y>
     </hint>
     <hint type="destinationlabel">
      <x>199</x>
