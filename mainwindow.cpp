@@ -30,7 +30,6 @@ MainWindow::MainWindow(QWidget *parent) :
      *character_set_results - кодировку, в которую сервер должен перевести результат перед его отправкой клиенту
      *character_set_database — кодировка по умолчанию для баз
      */
-
     query.exec("SET character_set_client=cp1251");
     query.exec("SET character_set_connection=UTF8");
     query.exec("SET character_set_results=cp1251");

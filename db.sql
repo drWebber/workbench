@@ -1,4 +1,4 @@
-CREATE DATABASE IF NOT EXISTS `nordelectro` CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+CREATE DATABASE IF NOT EXISTS `nordelectro` CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `nordelectro`;
 
 CREATE TABLE IF NOT EXISTS `keywords` (
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `store` (
 
 CREATE TABLE IF NOT EXISTS `store_date` (
   `smid` int(10) NOT NULL,
-  `date` date NOT NULL
+  `date` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
