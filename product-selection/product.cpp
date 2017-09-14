@@ -80,7 +80,7 @@ QHash<Product::Column, QVariant> Product::getProduct(const QSqlQuery &query)
     prod.insert(DESCRIPTION, query.value("description"));
     prod.insert(VIT_STORE, getStoreRemainings(pid, mid, "Витебск"));
     prod.insert(MINSK_STORE, getStoreRemainings(pid, mid, "Минск"));
-    prod.insert(OUTER_STORE, getStoreRemainings(pid, mid, "Внешние"));
+    prod.insert(OUTER_STORE, getStoreRemainings(pid, mid, "Внешнее"));
 
     return prod;
 }

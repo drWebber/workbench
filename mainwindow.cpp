@@ -127,19 +127,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::slotValLeEdtFinished()
 {
-    qDebug() << pv->getFilter(ui->leKey->text());
+//    qDebug() << pv->getFilter(ui->leKey->text());
     productModel->selectProducts(pv->getFilter(ui->leKey->text()));
-//    sqlmodel->setFilter(pv->getFilter(key, sender));
-//    sqlmodel->select();
-
-//    QList<int> mids, pids;
-//    for (int i = 0; i < sqlmodel->rowCount(); ++i) {
-//        pids.append(sqlmodel->data(sqlmodel->index(i, col_pid)).toInt());
-//        mids.append(sqlmodel->data(sqlmodel->index(i, col_mid)).toInt());
-//    }
-
-//    pi->setRemainingsData(pv->getStoreRemainings(pids, mids));
-
 }
 
 void MainWindow::on_mMultEdit_triggered()
