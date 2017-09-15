@@ -52,7 +52,8 @@ SOURCES += main.cpp\
     import/importinfo.cpp \
     import/csvreader.cpp \
     import/dataparcer.cpp \
-    import/datawriter.cpp
+    import/datawriter.cpp \
+    settings/settings.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -81,11 +82,13 @@ HEADERS  += mainwindow.h \
     import/importinfo.h \
     import/csvreader.h \
     import/dataparcer.h \
-    import/datawriter.h
+    import/datawriter.h \
+    settings/settings.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \
-    importdata.ui
+    importdata.ui \
+    settings/settings.ui
 
 RESOURCES += \
     images/resource.qrc

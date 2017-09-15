@@ -219,13 +219,15 @@ void MainWindow::on_dbExport()
 {
     QString dumpAppPath = settings.value("MySqlDumpPath").toString();
     QString backupDirPath = settings.value("BackupDir").toString();
+    bool emptyPath = false;
     if (dumpAppPath.isEmpty() || backupDirPath.isEmpty()) {
+        emptyPath = true;
         QString msg;
         if (dumpAppPath.isEmpty()) {
-            msg = "Путь к утилите MySqlDump.exe "
+            msg = "Путь к утилите MySqlDump.exe"
                   "не задан!";
         } else {
-            msg = "Путь к директории для сохранения резервных копий "
+            msg = "Путь к директории для сохранения резервных копий"
                   "бд не задан!";
         }
         QMessageBox::warning(NULL, "Ошибка", msg);
@@ -240,6 +242,7 @@ void MainWindow::on_dbExport()
     dump->setStandardOutputFile(backupDirPath
                                 + currDateTime + "_db.sql");
     dump->start(dumpAppPath, args);
+    qDebug() << dump->isOpen() << currDateTime;
 }
 
 void MainWindow::on_dumpFinished(int exitCode, QProcess::ExitStatus exitStatus)

@@ -19,6 +19,9 @@
      <layout class="QGridLayout" name="gridLayout_3">
       <item row="1" column="1">
        <widget class="QTableView" name="tableView">
+        <property name="sortingEnabled">
+         <bool>true</bool>
+        </property>
         <property name="wordWrap">
          <bool>true</bool>
         </property>
@@ -171,10 +174,24 @@
     <addaction name="mClearStoreMan"/>
     <addaction name="mClearAll"/>
    </widget>
+   <widget class="QMenu" name="menu_4">
+    <property name="title">
+     <string>Операции</string>
+    </property>
+    <addaction name="mDbExport"/>
+   </widget>
+   <widget class="QMenu" name="menu_5">
+    <property name="title">
+     <string>Параметры</string>
+    </property>
+    <addaction name="mGeneralSetting"/>
+   </widget>
    <addaction name="mFile"/>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
    <addaction name="menu_3"/>
+   <addaction name="menu_4"/>
+   <addaction name="menu_5"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -289,6 +306,16 @@
   <action name="mClearAll">
    <property name="text">
     <string>Очистить все таблицы</string>
+   </property>
+  </action>
+  <action name="mDbExport">
+   <property name="text">
+    <string>Экспорт БД</string>
+   </property>
+  </action>
+  <action name="mGeneralSetting">
+   <property name="text">
+    <string>Общие</string>
    </property>
   </action>
  </widget>

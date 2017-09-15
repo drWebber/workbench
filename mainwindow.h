@@ -2,12 +2,12 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "sql/sqlconn.h"
-#include <qsqlrelationaltablemodel.h>
-#include <qstandarditemmodel.h>
 #include <qsqlquery.h>
-#include <qsqlrecord.h>
 #include <qcompleter.h>
+#include <qstandarditemmodel.h>
+#include <qlist.h>
+#include <QProcess>
+#include "sql/sqlconn.h"
 #include "editors/sqltablewin.h"
 #include "import/importdata.h"
 #include "import/nomenclature.h"
@@ -21,8 +21,7 @@
 #include "product-selection/productconstructor.h"
 #include "product-selection/productvariety.h"
 #include "product-selection/productinfomodel.h"
-#include <qstandarditemmodel.h>
-#include <qlist.h>
+#include "settings/settings.h"
 
 namespace Ui {
 class MainWindow;
@@ -61,6 +60,8 @@ private:
     ProductConstructor *pc;
     ProductVariety *pv;
     ProductInfoModel* productModel;
+    Settings *settingsWnd;
+    QSettings settings;
     // QWidget interface
 protected:
     void keyPressEvent(QKeyEvent *event) override;
@@ -77,6 +78,9 @@ private slots:
     void on_mClearkeywords_triggered();
     void on_mClearProducts_triggered();
     void on_tableView_doubleClicked(const QModelIndex &index);
+    void on_dbExport();
+    void on_dumpFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void on_mSettingsTriggered();
 public:
     bool eventFilter(QObject *watched, QEvent *event);
 };
