@@ -2,6 +2,7 @@
 #include <qsqlerror.h>
 
 #include <qdebug.h>
+#define VITEBSK_SMID 9999
 
 Product::Product(const QStringList &pids)
 {
@@ -39,7 +40,12 @@ QString Product::getStoreRemainings(const QString &pid,
                                     const QString &mid,
                                     const QString &store)
 {
-    QString smid = getSmid(mid, store);
+    QString smid;
+    if (store == "Витебск") {
+        smid = QString::number(VITEBSK_SMID);
+    } else {
+        smid = getSmid(mid, store);
+    }
     if (smid.isEmpty()) {
         return QString("незвестно");
     }
@@ -48,7 +54,8 @@ QString Product::getStoreRemainings(const QString &pid,
                   "FROM `store` "
                   "WHERE `pid` = :pid AND `smid` = :smid");
     query.bindValue(":pid", pid);
-    query.bindValue(":smid", smid);
+        query.bindValue(":smid", smid);
+
     if (!query.exec() | !query.next()) {
         return QString();
     }
