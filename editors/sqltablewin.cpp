@@ -118,6 +118,7 @@ void SqlTableWin::on_pbnSave_clicked()
 void SqlTableWin::on_pbnRevert_clicked()
 {
     model->revertAll();
+    this->close();
 }
 
 void SqlTableWin::closeEvent(QCloseEvent *event)

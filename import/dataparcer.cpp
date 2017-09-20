@@ -1,5 +1,5 @@
 #include "dataparcer.h"
-#include <qregularexpression.h>
+#include <qregexp.h>
 #include <qdebug.h>
 
 DataParcer::DataParcer(const QList<int> &columns)
@@ -33,14 +33,27 @@ QString DataParcer::parceLine(QString line)
             }
         }
     }
-    return values;
+    return values.replace("\\", "\\\\");
 }
 
-void DataParcer::replaceLine(QString &line, QString &pattern)
+void DataParcer::replaceLine(QString &line, QString &replacePatt)
 {
-    while (line.contains(pattern)) {
-        pattern.append('#');
+    /* если паттерн вдруг встретится в строке, добавляем к нему
+       шарпы, пока он не станет уникальным. */
+    while (line.contains(replacePatt)) {
+        replacePatt.append('#');
     }
-    line.replace(QRegularExpression("\"(.+);(.+)\""),
-                 "\\1" + pattern + "\\2");
+
+    /* если в строке встречаем шаблон \"(.+;.+)\" - есть вероятность что
+     * симолов ';' может быть несколько, поэтому отдельно "вынимаем" по
+     * шаблону подстроку, меняем в ней ';' на replacePatt, далее заменяем
+     * подстроку в исходной */
+    QRegExp quotesRx("\"(.+;.+)\"");
+    int startIndex = line.indexOf(quotesRx);
+    if (startIndex != -1) {
+        int lenght = quotesRx.cap(0).length();
+        QString mid = line.mid(startIndex, lenght);
+        mid.replace(";", replacePatt);
+        line.replace(startIndex, lenght, mid);
+    }
 }

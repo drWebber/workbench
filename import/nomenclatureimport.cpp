@@ -27,7 +27,7 @@ void NomenclatureImport::run()
     csvFile = xr.saveAsCsv();
     xr.close();
 
-    emit progressChanged("Парсинг номенклатуы...");
+    emit progressChanged("Парсинг номенклатуры...");
     CsvReader cr(csvFile, import.getStartRow());
     QList<int> productInfo = QList<int>() << import.getArticleCol()
                                           << import.getDescCol()
@@ -56,7 +56,9 @@ void NomenclatureImport::run()
     emit progressChanged("Импорт номенклатуры в бд...");
     QSqlQuery query;
     if (!query.exec("LOAD DATA INFILE '" + prodWriter.getFilePath()
-                   + "' INTO TABLE `products`(`art`, `description`, `main_unit`, `mid`)")) {
+                   + "' INTO TABLE `products` "
+                    "CHARACTER SET UTF8 "
+                    "(`art`, `description`, `main_unit`, `mid`)")) {
         emit importError(query.lastError().text());
     }
     emit progressChanged("Импорт завершен");
