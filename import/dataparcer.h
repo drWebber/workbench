@@ -11,6 +11,7 @@ public:
     DataParcer(const QList<int> &columns);
     QString parceLine(QString line);
 private:
+    int maxElem;
     QList<int> columns;
     void replaceLine(QString &line, QString &replacePatt);
 };

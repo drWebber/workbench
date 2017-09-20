@@ -28,10 +28,12 @@ void NomenclatureImport::run()
     xr.close();
 
     emit progressChanged("Парсинг номенклатуры...");
-    CsvReader cr(csvFile, import.getStartRow());
     QList<int> productInfo = QList<int>() << import.getArticleCol()
                                           << import.getDescCol()
                                           << import.getUnitsCol();
+    int maxElem = *std::max_element(productInfo.begin(), productInfo.end());
+    CsvReader cr(csvFile, import.getStartRow(), maxElem);
+
     DataParcer prodParcer(productInfo);
     DataWriter prodWriter;
     if (!prodWriter.open(csvFile->fileName() + ".txt")) {
