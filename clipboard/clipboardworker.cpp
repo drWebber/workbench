@@ -43,3 +43,23 @@ bool ClipboardWorker::isTable()
 {
     return (clipboardText.indexOf("\t") != -1 || clipboardText.indexOf("\n") != -1) ? true : false;
 }
+
+void ClipboardWorker::clipPut(QModelIndexList indexes)
+{
+    QString selected;
+    int prevRow = indexes.first().row();
+    int currRow = 0;
+    foreach(QModelIndex indx, indexes)
+    {
+        currRow = indx.row();
+        if (currRow != prevRow) {
+            selected.chop(1);
+            selected.append('\n');
+        }
+        selected.append(indx.data().toString());
+        selected.append('\t');
+        prevRow = currRow;
+    }
+    selected.chop(1); //удаляем ненужный таб в конце
+    QApplication::clipboard()->setText(selected);
+}

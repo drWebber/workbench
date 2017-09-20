@@ -26,11 +26,6 @@ public:
     ~SqlTableWin();
     virtual void hideColumns() = 0;
     void keyPressEvent(QKeyEvent *e);
-protected:
-    SqlRelationalTableModel *model;
-    QSortFilterProxyModel *proxy;
-    SqlQuery sqe;
-    QMenu *menu;
 protected slots:
     void onPasteActionTriggered();
     void onMenuRequested(QPoint pos);
@@ -39,19 +34,20 @@ protected slots:
     void on_pbnRevert_clicked();
     // QWidget interface
 protected:
+    SqlRelationalTableModel *model;
+    QSortFilterProxyModel *proxy;
+    SqlQuery sqe;
+    QMenu *menu;
     Ui::SqlTableWin *ui;
     void closeEvent(QCloseEvent *event) override;
 private slots:
     void on_bnSetFilter_clicked();
-
     void on_bnUnSetFilter_clicked();
-
     void on_bnAdd_clicked();
-
     void on_bnDelete_clicked();
-
 private:
     void setUp(QString tableName);
+    QItemSelectionModel *selection;
 };
 
 #endif // SQLTABLEWIN_H

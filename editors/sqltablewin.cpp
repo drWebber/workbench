@@ -11,6 +11,7 @@
 #include <qmessagebox.h>
 #include "clipboard/clipboardworker.h"
 #include "outertexttable.h"
+#include "clipboard/clipboardworker.h"
 
 SqlTableWin::SqlTableWin(QString tableName, QWidget *parent) :
     QDialog(parent),
@@ -43,6 +44,7 @@ SqlTableWin::SqlTableWin(QString tableName, int column,
 
 SqlTableWin::~SqlTableWin()
 {
+    delete selection;
     delete ui;
 }
 
@@ -66,6 +68,12 @@ void SqlTableWin::onMenuRequested(QPoint pos)
 void SqlTableWin::keyPressEvent(QKeyEvent *e){
     if (e->key() == Qt::Key_Escape) {
         emit this->close();
+    } else if (e->modifiers().testFlag(Qt::ControlModifier)) {
+        if (e->key() == Qt::Key_C) {
+            selection = ui->sqlTableView->selectionModel();
+            QModelIndexList indexes = selection->selectedIndexes();
+            ClipboardWorker::clipPut(indexes);
+        }
     }
 }
 
