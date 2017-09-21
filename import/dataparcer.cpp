@@ -23,6 +23,27 @@ QString DataParcer::parceLine(QString line)
         if (item.contains(replacePatt)) {
             item.replace(replacePatt, ";");
         }
+
+        //  заменяем пару двойных кавычек на просто двойные
+        if (item.contains(QRegExp("\"\""))) {
+            item.replace(QRegExp("\"\""), "\"");
+        }
+        /* если строка содержит QRegExp("^\"(.+?)\"$") - вставляем excel
+         * при сохранении в csv когда в ячейке встречаются ';'
+         * то удаляем эти кавычки */
+        if (item.left(1) == '"' && item.right(1) == '"') {
+            item.remove(0, 1);
+            item.chop(1);
+        }
+
+        // удаляем пробелы в начале и в конце ячейки, если они есть
+        if (item.left(1) == ' ' && item.right(1) == ' ') item = item.trimmed();
+        // удаляем пробелы в конце ячейки, если они есть, в начале не удаляем
+        // т.к. они должны остаться (так делает 1С)
+        while (item.right(1) == ' ') {
+            item.chop(1);
+        }
+
         values.append(item);
         if (i != count - 1) {
             values.append('\t');

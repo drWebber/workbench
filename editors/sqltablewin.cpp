@@ -44,8 +44,8 @@ SqlTableWin::SqlTableWin(QString tableName, int column,
 
 SqlTableWin::~SqlTableWin()
 {
-    delete selection;
     delete ui;
+    delete selection;
 }
 
 void SqlTableWin::onMenuRequested(QPoint pos)
