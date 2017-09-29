@@ -12,18 +12,12 @@ enum colNames {
     col_pid, col_art, col_desc, col_mid
 };
 
-/*
- * 1. как удалить указатель, можно ли создавать в методе
- * QProcess *dump = qobject_cast<QProcess *>(sender());
- */
-
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-//    ui->tableView->setEditTriggers(QAbstractItemView::NoEditTriggers);
     connect(ui->mDbExport, SIGNAL(triggered(bool)),
             this, SLOT(on_dbExport()));
     connect(ui->mGeneralSetting, SIGNAL(triggered(bool)),
@@ -138,8 +132,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::slotValLeEdtFinished()
 {
-//    qDebug() << pv->getFilter(ui->leKey->text());
     productModel->selectProducts(pv->getFilter(ui->leKey->text()));
+    ui->tableView->resizeColumnsToContents();
 }
 
 void MainWindow::on_mMultEdit_triggered()

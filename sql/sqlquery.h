@@ -10,6 +10,8 @@ public:
     QVariant getSingleVal(QString query);
     QVector<QString> getSingleVals(QString query);
     QStringList getSingleValsList(QString query);
+    static QString argListToLine(const QList<int> &list);
+    static QString argListToLine(const QStringList &list);
 private:
     QSqlQuery *sqlquery;
 };

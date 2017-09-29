@@ -53,7 +53,11 @@ SOURCES += main.cpp\
     import/csvreader.cpp \
     import/dataparcer.cpp \
     import/datawriter.cpp \
-    settings/settings.cpp
+    settings/settings.cpp \
+    editors/stockbalance.cpp \
+    store/storeitem.cpp \
+    store/newproduct.cpp \
+    store/store.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -83,12 +87,17 @@ HEADERS  += mainwindow.h \
     import/csvreader.h \
     import/dataparcer.h \
     import/datawriter.h \
-    settings/settings.h
+    settings/settings.h \
+    editors/stockbalance.h \
+    store/storeitem.h \
+    store/newproduct.h \
+    store/store.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \
     importdata.ui \
-    settings/settings.ui
+    settings/settings.ui \
+    editors/stockbalance.ui
 
 RESOURCES += \
     images/resource.qrc

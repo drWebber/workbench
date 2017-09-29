@@ -39,3 +39,25 @@ QStringList SqlQuery::getSingleValsList(QString query)
     }
     return list;
 }
+
+QString SqlQuery::argListToLine(const QList<int> &list)
+{
+    QString result;
+    QListIterator<int> it(list);
+    while (it.hasNext()) {
+        result.append('"' + QString::number(it.next()) + "\",");
+    }
+    result.chop(1);
+    return result;
+}
+
+QString SqlQuery::argListToLine(const QStringList &list)
+{
+    QString result;
+    QListIterator<QString> it(list);
+    while (it.hasNext()) {
+        result.append('"' + it.next() + "\",");
+    }
+    result.chop(1);
+    return result;
+}
