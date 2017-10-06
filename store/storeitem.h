@@ -1,9 +1,9 @@
 #ifndef STOREITEM_H
 #define STOREITEM_H
 
-#include "newproduct.h"
-#include "store.h"
+#include "store/newproduct.h"
 #include <qlist.h>
+
 
 class StoreItem : public NewProduct
 {

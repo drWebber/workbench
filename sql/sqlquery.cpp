@@ -1,6 +1,5 @@
 #include "sql/sqlquery.h"
 #include <qsqlquery.h>
-#include <qsql.h>
 #include <QSqlRecord>
 #include <QVector>
 #include <qdebug.h>

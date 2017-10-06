@@ -55,9 +55,13 @@ SOURCES += main.cpp\
     import/datawriter.cpp \
     settings/settings.cpp \
     editors/stockbalance.cpp \
-    store/storeitem.cpp \
     store/newproduct.cpp \
-    store/store.cpp
+    store/storeitem.cpp \
+    store/store.cpp \
+    testing/testingwnd.cpp \
+    testing/test/test1.cpp \
+    testing/test/test2.cpp \
+    testing/test/test3.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -89,15 +93,20 @@ HEADERS  += mainwindow.h \
     import/datawriter.h \
     settings/settings.h \
     editors/stockbalance.h \
-    store/storeitem.h \
     store/newproduct.h \
-    store/store.h
+    store/storeitem.h \
+    store/store.h \
+    testing/testingwnd.h \
+    testing/test/test1.h \
+    testing/test/test2.h \
+    testing/test/test3.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \
     importdata.ui \
     settings/settings.ui \
-    editors/stockbalance.ui
+    editors/stockbalance.ui \
+    testing/testingwnd.ui
 
 RESOURCES += \
     images/resource.qrc

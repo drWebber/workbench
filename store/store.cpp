@@ -3,11 +3,16 @@
 #include "sql/sqlquery.h"
 #include <qvector.h>
 
-Store::Store(const QList<int> pids)
+#include <qdebug.h>
+#include <qsqlerror.h>
+#define ARTICLE_COL 1
+
+Store::Store(QList<int> *pids)
 {
+    products = new QList<NewProduct*>();
     QSqlQuery q;
     q.exec("SELECT * FROM `products` WHERE `pid` IN("
-           + SqlQuery::argListToLine(pids) + ")");
+           + SqlQuery::argListToLine(*pids) + ")");
     while (q.next()) {
         appendProduct(q.record());
     }
@@ -15,10 +20,11 @@ Store::Store(const QList<int> pids)
 
 Store::Store(const QStringList articles, const int mid)
 {
+    products = new QList<NewProduct*>();
     QSqlQuery q;
-    q.exec("SELECT * FROM `products` WHERE `articles` IN("
+    q.exec("SELECT * FROM `products` WHERE `art` IN("
            + SqlQuery::argListToLine(articles) +
-           ") AND mid='" + QString::number(mid) + "')");
+           ") AND mid = " + QString::number(mid));
     while (q.next()) {
         appendProduct(q.record());
     }
@@ -26,6 +32,7 @@ Store::Store(const QStringList articles, const int mid)
 
 Store::Store(const QStringList articles, const QStringList descriptions)
 {
+    products = new QList<NewProduct*>();
     // Проблема: под одним артикулом может быть несоклько товаров
     // Собираем все вариации доступных артикулов и описаний, далее идентифицируем
     // записи дополнительно по описанию
@@ -57,7 +64,7 @@ Store::Store(const QStringList articles, const QStringList descriptions)
         // ищем в dirtyRes записи с артикулами
         for (int x = 0; x < dirtyRes.count(); ++x) {
             QVector<QString> currRec = dirtyRes.at(x);
-            if (currRec.at(0) == currtArt) {
+            if (currRec.at(ARTICLE_COL) == currtArt) {
                 dirtyIndexes.append(x);
             }
         }
@@ -98,7 +105,7 @@ void Store::appendProduct()
 
 void Store::appendProduct(const QSqlRecord &rec)
 {
-    NewProduct *p;
+    NewProduct *p = new NewProduct();
     p->setArticle(rec.value("art").toString());
     p->setDescription(rec.value("description").toString());
     p->setMain_mult(rec.value("main_mult").toInt());
@@ -113,7 +120,7 @@ void Store::appendProduct(const QSqlRecord &rec)
 
 void Store::appendProduct(const QVector<QString> &row)
 {
-    NewProduct *p;
+    NewProduct *p = new NewProduct();
     p->setPid(row.at(0).toInt());
     p->setArticle(row.at(1));
     p->setDescription(row.at(2));

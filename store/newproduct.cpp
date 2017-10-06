@@ -1,4 +1,4 @@
-#include "newproduct.h"
+#include "store/newproduct.h"
 
 NewProduct::NewProduct()
 {

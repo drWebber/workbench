@@ -1,5 +1,5 @@
-#ifndef PRODUCT_H
-#define PRODUCT_H
+#ifndef NEWPRODUCT_H
+#define NEWPRODUCT_H
 
 #include <qstring.h>
 
@@ -32,10 +32,11 @@ public:
     void setSec_unit(const QString &value);
 
     bool isValid();
-private:
+protected:
     int pid = -1;
-    int mid, main_mult, sec_mult;
+    int mid = -1;
+    int main_mult, sec_mult;
     QString article, description, main_unit, sec_unit;
 };
 
-#endif // PRODUCT_H
+#endif // NEWPRODUCT_H

@@ -1,12 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "sql/sqlquery.h"
 #include <qtableview.h>
 #include <QLabel>
 #include <qevent.h>
 #include <qstandarditemmodel.h>
 #include <QThread>
 #include <QDateTime>
+#include "sql/sqlquery.h"
 
 enum colNames {
     col_pid, col_art, col_desc, col_mid
@@ -63,10 +63,14 @@ MainWindow::MainWindow(QWidget *parent) :
 
     productModel = new ProductInfoModel(this);
     ui->tableView->setModel(productModel);
+
+    connect(ui->mTesting, SIGNAL(triggered(bool)),
+            this, SLOT(on_mTestingTriggered()));
 }
 
 MainWindow::~MainWindow()
 {
+    delete tw;
     delete ui;
 }
 
@@ -256,6 +260,12 @@ void MainWindow::on_mSettingsTriggered()
 {
     settingsWnd = new Settings(this);
     settingsWnd->exec();
+}
+
+void MainWindow::on_mTestingTriggered()
+{
+    tw = new TestingWnd(this);
+    tw->exec();
 }
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)

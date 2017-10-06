@@ -1,6 +1,6 @@
 #include "storeitem.h"
 
-StoreItem::StoreItem()
+StoreItem::StoreItem() : NewProduct()
 {
 
 }

@@ -163,6 +163,7 @@
     <property name="title">
      <string>Разработка</string>
     </property>
+    <addaction name="mTesting"/>
     <addaction name="mClearProducts"/>
     <addaction name="mClearkeywords"/>
     <addaction name="mClearManufacturers"/>
@@ -316,6 +317,11 @@
   <action name="mGeneralSetting">
    <property name="text">
     <string>Общие</string>
+   </property>
+  </action>
+  <action name="mTesting">
+   <property name="text">
+    <string>Тестирование</string>
    </property>
   </action>
  </widget>

@@ -22,6 +22,7 @@
 #include "product-selection/productvariety.h"
 #include "product-selection/productinfomodel.h"
 #include "settings/settings.h"
+#include "testing/testingwnd.h"
 
 namespace Ui {
 class MainWindow;
@@ -43,6 +44,7 @@ public slots:
     void slotMManEditTriggered();
     void slotMNomEditTriggered();
     void slotMPriceEditTriggered();
+    void on_mTestingTriggered();
 private:
     Ui::MainWindow *ui;
     QList<QLabel *> labels;
@@ -55,6 +57,7 @@ private:
     ManufacturersEditor *manufacturersEditor;
     ParamEditor *param;
     ProdEditor *prod;
+    TestingWnd *tw;
     Nomenclature *nomenclature;
     PriceImport *priceImport;
     ProductConstructor *pc;
