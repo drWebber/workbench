@@ -2,18 +2,18 @@
 #define STOREITEM_H
 
 #include "store/newproduct.h"
+#include "warehouse.h"
 #include <qlist.h>
 
 
 class StoreItem : public NewProduct
 {
 public:
-    StoreItem();
-    enum Location {VITEBSK, MINSK, OTHER} location;
-    int getAvailability(Location location) const;
-    void setAvailability(Location location, int count);
+    StoreItem(NewProduct *p);
+    QString getAvailability(Warehouse::Location location) const;
+    void setAvailability(Warehouse::Location location, QString count);
 private:
-    QList<int> availability;
+    QStringList availability;
 };
 
 #endif // STOREITEM_H

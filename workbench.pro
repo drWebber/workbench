@@ -61,7 +61,8 @@ SOURCES += main.cpp\
     testing/testingwnd.cpp \
     testing/test/test1.cpp \
     testing/test/test2.cpp \
-    testing/test/test3.cpp
+    testing/test/test3.cpp \
+    store/warehouse.cpp
 
 HEADERS  += mainwindow.h \
     import/importdata.h \
@@ -99,7 +100,8 @@ HEADERS  += mainwindow.h \
     testing/testingwnd.h \
     testing/test/test1.h \
     testing/test/test2.h \
-    testing/test/test3.h
+    testing/test/test3.h \
+    store/warehouse.h
 
 FORMS    += mainwindow.ui \
     sqltablewin.ui \

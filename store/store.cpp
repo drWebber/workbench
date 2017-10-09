@@ -136,3 +136,36 @@ QList<NewProduct *> *Store::getProducts() const
 {
     return products;
 }
+
+QList<StoreItem *> *Store::getStoreItems() const
+{
+    foreach (NewProduct *p, products) {
+        StoreItem *si = new StoreItem(p);
+        Warehouse w;
+        w.load();
+        Warehouse vitebsk = w.find(p->getMid(), Warehouse::VITEBSK);
+        if (vitebsk.isValid(vitebsk))
+            si->setAvailability(Warehouse::VITEBSK,
+                                getStoreBalance(p->getPid(), vitebsk.getSmid()));
+        here
+
+//        vitebsk.isValid(vitebsk) ?
+//                    this->availability.append(0) :
+//                    this->availability.append(0);
+//        this->availability.append(0); //MINSK
+//        this->availability.append(0); //OTHER
+    }
+}
+
+QString Store::getStoreBalance(int pid, int smid)
+{
+    QSqlQuery q;
+    q.prepare("SELECT `count` FROM `store` WHERE pid = :pid, smid = :smid");
+    q.bindValue(":pid", QString::number(pid));
+    q.bindValue(":smid", QString::number(smid));
+    q.exec();
+    if (q.next()) {
+        return q.value(0).toString();
+    }
+    return QString("0 or unknown");
+}
